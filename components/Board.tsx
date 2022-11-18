@@ -6,6 +6,7 @@ import getCoordsInDirection, {
 } from '../utils/getCoordsInDirection';
 import getDirectionFromKey from '../utils/getDirectionFromKey';
 import getStartingSnakeCoords from '../utils/getStartingSnakeCoords';
+import isOutOfBoard from '../utils/isOutOfBoard';
 import { Coords, LinkedList, LinkedListNode } from '../utils/linkedList';
 import useInterval from '../utils/useInterval';
 
@@ -21,6 +22,7 @@ const Board = () => {
 		DIRECTION.RIGHT as Direction
 	);
 	const [start, setStart] = useState(false);
+	const [foodCell, setFoodCell] = useState(snake.head.value.cel + 5);
 
 	useInterval(
 		() => {
@@ -44,7 +46,17 @@ const Board = () => {
 
 		const nextHeadCoords = getCoordsInDirection(currentHeadCoords, direction);
 
+		if (isOutOfBoard(nextHeadCoords, board)) {
+			handleGameOver();
+			return;
+		}
+
 		const nextHeadCel = board[nextHeadCoords.row][nextHeadCoords.col];
+
+		if (snakeCells.has(nextHeadCel)) {
+			handleGameOver();
+			return;
+		}
 
 		const newHead = new LinkedListNode({
 			row: nextHeadCoords.row,
@@ -76,6 +88,14 @@ const Board = () => {
 
 	const handleStart = () => setStart(true);
 
+	function handleGameOver() {
+		const snakeStartingValue = getStartingSnakeCoords(board);
+		setSnake(new LinkedList(snakeStartingValue));
+		setSnakeCells(new Set([snakeStartingValue.cel]));
+		setDirection(DIRECTION.RIGHT as Direction);
+		setStart(false);
+	}
+
 	return (
 		<div>
 			<button onClick={handleStart}>Start</button>
@@ -87,7 +107,11 @@ const Board = () => {
 							<div
 								key={ci}
 								className={`border border-black h-9 w-9 ${
-									snakeCells.has(cell) ? 'bg-orange-600' : ''
+									snakeCells.has(cell)
+										? 'bg-orange-600'
+										: foodCell === cell
+										? 'bg-green-600'
+										: ''
 								}`}
 							></div>
 						))}
