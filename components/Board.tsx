@@ -5,9 +5,11 @@ import getCoordsInDirection, {
 	DIRECTION,
 } from '../utils/getCoordsInDirection';
 import getDirectionFromKey from '../utils/getDirectionFromKey';
+import getNodeGrowthDirection from '../utils/getNodeGrowthDirection';
 import getStartingSnakeCoords from '../utils/getStartingSnakeCoords';
 import isOutOfBoard from '../utils/isOutOfBoard';
 import { Coords, LinkedList, LinkedListNode } from '../utils/linkedList';
+import randomIntFromInterval from '../utils/randomIntFromInterval';
 import useInterval from '../utils/useInterval';
 
 const BOARD_SIZE = 15;
@@ -21,8 +23,10 @@ const Board = () => {
 	const [direction, setDirection] = useState<Direction>(
 		DIRECTION.RIGHT as Direction
 	);
+
 	const [start, setStart] = useState(false);
 	const [foodCell, setFoodCell] = useState(snake.head.value.cel + 5);
+	const [score, setScore] = useState(0);
 
 	useInterval(
 		() => {
@@ -72,10 +76,51 @@ const Board = () => {
 		newSnakeCells.delete(snake.tail.value.cel);
 		newSnakeCells.add(nextHeadCel);
 
-		setSnakeCells(newSnakeCells);
-
 		snake.tail = snake.tail.next!;
 		if (snake.tail === null) snake.tail = snake.head;
+
+		const foodConsumed = nextHeadCel === foodCell;
+		if (foodConsumed) {
+			growSnake(newSnakeCells);
+			handleFoodConsumption(newSnakeCells);
+		}
+
+		setSnakeCells(newSnakeCells);
+	}
+
+	function growSnake(newSnakeCells: Set<number>) {
+		const growthNodeCoords = getNodeGrowthDirection(snake.tail, direction);
+
+		if (isOutOfBoard(growthNodeCoords, board)) return;
+
+		const newTailCell = board[growthNodeCoords.row][growthNodeCoords.col];
+
+		const newTail = new LinkedListNode({
+			row: growthNodeCoords.row,
+			col: growthNodeCoords.col,
+			cel: newTailCell,
+		});
+
+		const currentTail = snake.tail;
+		snake.tail = newTail;
+		snake.tail.next = currentTail;
+
+		newSnakeCells.add(newTailCell);
+	}
+
+	function handleFoodConsumption(newSnakeCells: Set<number>) {
+		const maxPossibleCellValue = BOARD_SIZE * BOARD_SIZE;
+		let nextFoodCell;
+
+		while (true) {
+			nextFoodCell = randomIntFromInterval(1, maxPossibleCellValue);
+			if (newSnakeCells.has(nextFoodCell) || foodCell === nextFoodCell)
+				continue;
+			break;
+		}
+
+		setFoodCell(nextFoodCell);
+		setScore(score + 1);
 	}
 
 	function handleKeyDown(e: KeyboardEvent) {
@@ -94,10 +139,13 @@ const Board = () => {
 		setSnakeCells(new Set([snakeStartingValue.cel]));
 		setDirection(DIRECTION.RIGHT as Direction);
 		setStart(false);
+		setScore(0);
+		setFoodCell(snakeStartingValue.cel + 5);
 	}
 
 	return (
 		<div>
+			<h1>{score}</h1>
 			<button onClick={handleStart}>Start</button>
 
 			<div className="border border-black max-w-fit mt-8 m-auto">
