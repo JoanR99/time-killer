@@ -22,6 +22,8 @@ function getShapeCoords(
 
 function Page() {
 	const board = useRef(createBoard(20, WIDTH));
+	const nextShapeBoard = useRef(createBoard(5, 6));
+	const [score, setScore] = useState(0);
 	const [shape, setShape] = useState(0);
 	const [rotation, setRotation] = useState(0);
 	const [row, setRow] = useState(0);
@@ -43,8 +45,6 @@ function Page() {
 	const [takenYellow, setTakenYellow] = useState<Set<number>>(new Set());
 	const [takenGreen, setTakenGreen] = useState<Set<number>>(new Set());
 	const [takenBlue, setTakenBlue] = useState<Set<number>>(new Set());
-
-	const [left, setLeft] = useState(false);
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent, row: number, shape: number, rotation: number) => {
@@ -70,12 +70,272 @@ function Page() {
 	}, [handleKeyDown]);
 
 	useEffect(() => {
+		gameOver();
 		setCurrentShape(getShapeCoords(board.current, row, col, shape, rotation));
 	}, [row, col, rotation, shape]);
 
 	function moveDown() {
 		setRow((prevRow) => prevRow + 1);
 		freeze();
+		getScore(board.current);
+	}
+
+	function getScore(board: number[][]) {
+		board.forEach((row) => {
+			if (row.every((cell) => taken.has(cell))) {
+				if (row.every((cell) => takenOrange.has(cell))) {
+					setTakenOrange(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setTakenRed(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenYellow(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenGreen(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenBlue(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTaken(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setScore((prevScore) => prevScore + 100);
+				} else if (row.every((cell) => takenRed.has(cell))) {
+					setTakenRed(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setTakenOrange(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenYellow(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenGreen(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenBlue(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTaken(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setScore((prevScore) => prevScore + 100);
+				} else if (row.every((cell) => takenYellow.has(cell))) {
+					setTakenYellow(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setTakenOrange(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenRed(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenGreen(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenBlue(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTaken(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setScore((prevScore) => prevScore + 100);
+				} else if (row.every((cell) => takenGreen.has(cell))) {
+					setTakenGreen(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setTakenOrange(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenRed(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenYellow(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenBlue(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTaken(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setScore((prevScore) => prevScore + 100);
+				} else if (row.every((cell) => takenBlue.has(cell))) {
+					setTakenBlue(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setTakenOrange(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenRed(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenYellow(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTakenYellow(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)].map((ce) =>
+									ce < row[0] ? ce + 10 : ce
+								)
+							)
+					);
+					setTaken(
+						(prevTaken) =>
+							new Set(
+								[...Array.from(prevTaken)]
+									.filter((c) => !row.includes(c))
+									.map((ce) => (ce < row[0] ? ce + 10 : ce))
+							)
+					);
+					setScore((prevScore) => prevScore + 100);
+				}
+			}
+		});
 	}
 
 	function setTakenColor(color: string, colorShape: number[]) {
@@ -113,7 +373,6 @@ function Page() {
 	function freeze() {
 		const nexPos = getShapeCoords(board.current, row + 1, col, shape, rotation);
 		const nPos = getShapeCoords(board.current, row + 2, col, shape, rotation);
-		// const Pos = getShapeCoords(board.current, row + 3, col, shape, rotation);
 
 		if (
 			nPos.some((node) => node >= 191) &&
@@ -173,6 +432,39 @@ function Page() {
 		});
 	}
 
+	function gameOver() {
+		const currentStartingShapePos = getShapeCoords(
+			board.current,
+			0,
+			col,
+			shape,
+			rotation
+		);
+
+		if (currentStartingShapePos.some((cell) => taken.has(cell))) {
+			setScore(0);
+			setShape(0);
+			setRotation(0);
+			setRow(0);
+			setCol(4);
+			setColor(colors[0]);
+			setNextColor(colors[getRandom(5)]);
+
+			setStart(false);
+
+			setCurrentShape(getShapeCoords(board.current, 0, 4, 0, 0));
+
+			setNextShape(getRandom(5));
+
+			setTaken(new Set());
+			setTakenOrange(new Set());
+			setTakenRed(new Set());
+			setTakenYellow(new Set());
+			setTakenGreen(new Set());
+			setTakenBlue(new Set());
+		}
+	}
+
 	function moveRight(row: number, shape: number, rotation: number) {
 		setCol((prevCol) => {
 			const nexPos = getShapeCoords(
@@ -215,26 +507,55 @@ function Page() {
 
 	return (
 		<div>
-			<button onClick={() => setStart(true)}>start</button>
-
-			<div className="border border-black max-w-fit mt-8 m-auto">
-				{board.current.map((row, ri) => (
-					<div key={ri} className="flex">
-						{row.map((cell, ci) => (
-							<div
-								key={ci}
-								className={`border border-black h-9 w-9 ${
-									currentShape?.includes(cell)
-										? `bg-${color}-600`
-										: getColor(cell)
-								}
+			<div className="flex gap-10 items-start justify-center mt-8">
+				<div>
+					<button onClick={() => setStart(true)}>start</button>
+					<h1>{score}</h1>
+				</div>
+				<div className="border border-black max-w-fit">
+					{board.current.map((row, ri) => (
+						<div key={ri} className="flex">
+							{row.map((cell, ci) => (
+								<div
+									key={ci}
+									className={`border border-black h-8 w-8 ${
+										currentShape?.includes(cell)
+											? `bg-${color}-600`
+											: getColor(cell)
+									}
 							}`}
-							>
-								{cell}
+								></div>
+							))}
+						</div>
+					))}
+				</div>
+
+				<div>
+					<h1>Next Shape</h1>
+					<div className="border border-black max-w-fit">
+						{nextShapeBoard.current.map((row, ri) => (
+							<div key={ri} className="flex">
+								{row.map((cell, ci) => (
+									<div
+										key={ci}
+										className={`border border-black h-8 w-8 ${
+											getShapeCoords(
+												nextShapeBoard.current,
+												1,
+												2,
+												nextShape,
+												0
+											).includes(cell)
+												? `bg-${nextColor}-600`
+												: ''
+										}
+							}`}
+									></div>
+								))}
 							</div>
 						))}
 					</div>
-				))}
+				</div>
 			</div>
 		</div>
 	);
