@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import createBoard from '../utils/createBoard';
 import getDirectionFromKey from '../utils/getDirectionFromKey';
 import getT from '../utils/tetrominoes';
-import theTetrominoes from '../utils/tetrominoes';
 import useInterval from '../utils/useInterval';
+
+const colors = ['orange', 'red', 'yellow', 'green', 'blue'];
 
 const WIDTH = 10;
 
@@ -25,6 +26,8 @@ function Page() {
 	const [rotation, setRotation] = useState(0);
 	const [row, setRow] = useState(0);
 	const [col, setCol] = useState(4);
+	const [color, setColor] = useState(colors[0]);
+	const [nextColor, setNextColor] = useState(colors[getRandom(5)]);
 
 	const [start, setStart] = useState(false);
 
@@ -35,9 +38,13 @@ function Page() {
 	const [nextShape, setNextShape] = useState(getRandom(5));
 
 	const [taken, setTaken] = useState<Set<number>>(new Set());
+	const [takenOrange, setTakenOrange] = useState<Set<number>>(new Set());
+	const [takenRed, setTakenRed] = useState<Set<number>>(new Set());
+	const [takenYellow, setTakenYellow] = useState<Set<number>>(new Set());
+	const [takenGreen, setTakenGreen] = useState<Set<number>>(new Set());
+	const [takenBlue, setTakenBlue] = useState<Set<number>>(new Set());
+
 	const [left, setLeft] = useState(false);
-	console.log(currentShape);
-	console.log(nextShape);
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent, row: number, shape: number, rotation: number) => {
@@ -71,6 +78,38 @@ function Page() {
 		freeze();
 	}
 
+	function setTakenColor(color: string, colorShape: number[]) {
+		switch (color) {
+			case 'orange':
+				setTakenOrange(
+					(prevTaken) => new Set([...Array.from(prevTaken), ...colorShape])
+				);
+				break;
+			case 'red':
+				setTakenRed(
+					(prevTaken) => new Set([...Array.from(prevTaken), ...colorShape])
+				);
+				break;
+			case 'yellow':
+				setTakenYellow(
+					(prevTaken) => new Set([...Array.from(prevTaken), ...colorShape])
+				);
+				break;
+			case 'green':
+				setTakenGreen(
+					(prevTaken) => new Set([...Array.from(prevTaken), ...colorShape])
+				);
+				break;
+			case 'blue':
+				setTakenBlue(
+					(prevTaken) => new Set([...Array.from(prevTaken), ...colorShape])
+				);
+				break;
+			default:
+				return;
+		}
+	}
+
 	function freeze() {
 		const nexPos = getShapeCoords(board.current, row + 1, col, shape, rotation);
 		const nPos = getShapeCoords(board.current, row + 2, col, shape, rotation);
@@ -86,7 +125,10 @@ function Page() {
 			setShape(nextShape);
 			setRotation(0);
 			setTaken((prevTaken) => new Set([...Array.from(prevTaken), ...nPos]));
+			setTakenColor(color, nPos);
 			setNextShape(getRandom(5));
+			setColor(nextColor);
+			setNextColor(colors[getRandom(5)]);
 		}
 
 		if (nexPos.some((node) => node >= 191)) {
@@ -95,7 +137,10 @@ function Page() {
 			setShape(nextShape);
 			setRotation(0);
 			setTaken((prevTaken) => new Set([...Array.from(prevTaken), ...nexPos]));
+			setTakenColor(color, nexPos);
 			setNextShape(getRandom(5));
+			setColor(nextColor);
+			setNextColor(colors[getRandom(5)]);
 		}
 
 		if (nPos.some((coord) => taken.has(coord))) {
@@ -103,14 +148,11 @@ function Page() {
 			setCol(4);
 			setShape(nextShape);
 			setRotation(0);
-			setTaken(
-				(prevTaken) =>
-					new Set([
-						...Array.from(prevTaken),
-						...getShapeCoords(board.current, row + 1, col, shape, rotation),
-					])
-			);
+			setTaken((prevTaken) => new Set([...Array.from(prevTaken), ...nexPos]));
+			setTakenColor(color, nexPos);
 			setNextShape(getRandom(5));
+			setColor(nextColor);
+			setNextColor(colors[getRandom(5)]);
 		}
 	}
 
@@ -162,6 +204,15 @@ function Page() {
 
 	useInterval(() => moveDown(), 1000, start);
 
+	function getColor(cell: number) {
+		if (takenOrange.has(cell)) return 'bg-orange-600';
+		else if (takenRed.has(cell)) return 'bg-red-600';
+		else if (takenYellow.has(cell)) return 'bg-yellow-600';
+		else if (takenGreen.has(cell)) return 'bg-green-600';
+		else if (takenBlue.has(cell)) return 'bg-blue-600';
+		else return '';
+	}
+
 	return (
 		<div>
 			<button onClick={() => setStart(true)}>start</button>
@@ -174,10 +225,8 @@ function Page() {
 								key={ci}
 								className={`border border-black h-9 w-9 ${
 									currentShape?.includes(cell)
-										? 'bg-blue-600'
-										: taken?.has(cell)
-										? 'bg-red-600'
-										: ''
+										? `bg-${color}-600`
+										: getColor(cell)
 								}
 							}`}
 							>
