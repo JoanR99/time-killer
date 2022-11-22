@@ -15,7 +15,7 @@ import useInterval from '../utils/useInterval';
 const BOARD_SIZE = 15;
 
 export default function useSnakeLogic() {
-	const [board] = useState(createBoard(BOARD_SIZE));
+	const [board] = useState(createBoard(BOARD_SIZE, BOARD_SIZE));
 	const [snake, setSnake] = useState(
 		new LinkedList(getStartingSnakeCoords(board))
 	);

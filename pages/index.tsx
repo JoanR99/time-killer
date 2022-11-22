@@ -26,6 +26,13 @@ export default function Home() {
 				>
 					Snake
 				</Link>
+
+				<Link
+					href="tetris"
+					className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
+				>
+					Tetris
+				</Link>
 			</div>
 		</div>
 	);

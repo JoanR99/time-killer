@@ -1,11 +1,11 @@
-export default function createBoard(boardSize: number) {
+export default function createBoard(rowsSize: number, colsSize: number) {
 	const board = [];
 	let counter = 1;
 
-	for (let row = 0; row < boardSize; row++) {
+	for (let row = 0; row < rowsSize; row++) {
 		const currentRow = [];
 
-		for (let cel = 0; cel < boardSize; cel++) {
+		for (let cel = 0; cel < colsSize; cel++) {
 			currentRow.push(counter++);
 		}
 		board.push(currentRow);
