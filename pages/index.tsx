@@ -33,6 +33,13 @@ export default function Home() {
 				>
 					Tetris
 				</Link>
+
+				<Link
+					href="flappy"
+					className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
+				>
+					Flappy Bird
+				</Link>
 			</div>
 		</div>
 	);
