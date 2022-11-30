@@ -39,7 +39,6 @@ export default function Page() {
 	}, [birdPosition, obstacle, obstacleBottom, obstacleTop]);
 
 	useEffect(() => {
-		console.log(start);
 		if (start) {
 			window.addEventListener('keydown', handleKey);
 		} else {
