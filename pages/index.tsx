@@ -14,7 +14,7 @@ export default function Home() {
 					GAMES
 				</h2>
 				<Link
-					href="Simon"
+					href="simon"
 					className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
 				>
 					Simon
@@ -39,6 +39,13 @@ export default function Home() {
 					className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
 				>
 					Flappy Bird
+				</Link>
+
+				<Link
+					href="memory"
+					className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
+				>
+					Memory
 				</Link>
 			</div>
 		</div>

@@ -32,8 +32,7 @@ export default function useSnakeLogic() {
 		() => {
 			moveSnake();
 		},
-		150,
-		start
+		start ? 150 : null
 	);
 
 	useEffect(() => {
