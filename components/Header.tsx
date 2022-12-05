@@ -10,12 +10,27 @@ const Header = () => {
 	}
 
 	return (
-		<div className="p-2 bg-[#313638]">
-			<Link href="/">
-				<h1 className="text-[#DC5F00] font-bold">Time Killer</h1>
-			</Link>
+		<div className="px-6 py-4 bg-[#313638] flex justify-between">
+			<div className="w-fit">
+				<Link href="/">
+					<h1 className="text-[#DC5F00] font-bold w-fit">Time Killer</h1>
+				</Link>
+			</div>
 
-			{currentUser && <button onClick={handleClick}>Logout</button>}
+			<div>
+				{currentUser ? (
+					<button onClick={handleClick}>Logout</button>
+				) : (
+					<div className="flex gap-x-4">
+						<Link href="login" className="text-[#DC5F00] hover:opacity-80">
+							Login
+						</Link>
+						<Link href="register" className="text-[#DC5F00] hover:opacity-80">
+							Register
+						</Link>
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

@@ -3,6 +3,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema, defaultValues } from '../validation/registerSchema';
 import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
+import RegisterImage from '../components/RegisterImage';
+import Button from '../components/Button';
 
 type FormProps = {
 	name: string;
@@ -27,31 +29,54 @@ export default function Page() {
 	}
 
 	return (
-		<FormProvider {...methods}>
-			<form
-				onSubmit={methods.handleSubmit(submitHandler)}
-				noValidate
-				autoComplete="off"
-			>
-				<FormInput name="name" type="text" label="Name" required id="name" />
-				<FormInput name="email" type="text" label="Email" required id="email" />
-				<FormInput
-					name="password"
-					type="password"
-					label="Password"
-					required
-					id="password"
-				/>
-				<FormInput
-					name="passwordConfirm"
-					type="password"
-					label="Password Confirm"
-					required
-					id="passwordConfirm"
-				/>
+		<div className="flex gap-20 mt-28 items-center justify-center">
+			<div className="w-1/3">
+				<RegisterImage />
+			</div>
 
-				<button>Register</button>
-			</form>
-		</FormProvider>
+			<div className="w-1/3">
+				<h2 className=" text-2xl text-[#dc5f00] font-extrabold uppercase mb-4">
+					Register
+				</h2>
+				<FormProvider {...methods}>
+					<form
+						onSubmit={methods.handleSubmit(submitHandler)}
+						noValidate
+						autoComplete="off"
+					>
+						<FormInput
+							name="name"
+							type="text"
+							label="Name"
+							required
+							id="name"
+						/>
+						<FormInput
+							name="email"
+							type="text"
+							label="Email"
+							required
+							id="email"
+						/>
+						<FormInput
+							name="password"
+							type="password"
+							label="Password"
+							required
+							id="password"
+						/>
+						<FormInput
+							name="passwordConfirm"
+							type="password"
+							label="Password Confirm"
+							required
+							id="passwordConfirm"
+						/>
+
+						<Button variant="primary">Register</Button>
+					</form>
+				</FormProvider>
+			</div>
+		</div>
 	);
 }
