@@ -1,22 +1,45 @@
-import { useCallback, useEffect, useRef, useState, MouseEvent } from 'react';
+import {
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+	MouseEvent,
+	RefObject,
+} from 'react';
 import animatePress from '../utils/animatePress';
 import playSound from '../utils/playSound';
-import removeClass from '../utils/removeClass';
 
 const buttonColors = ['red', 'blue', 'green', 'yellow'];
+
+function animatePattern(element: RefObject<HTMLButtonElement>) {
+	element.current?.classList.add('pressed');
+
+	setTimeout(() => element.current?.classList.remove('pressed'), 200);
+}
 
 const useSimonLogic = () => {
 	const gamePattern = useRef<string[]>([]);
 	const [userClickedPattern, setUserClickedPattern] = useState<string[]>([]);
 	const [level, setLevel] = useState(0);
 	const [disabled, setDisabled] = useState(true);
+	const redRef = useRef<HTMLButtonElement>(null);
+	const greenRef = useRef<HTMLButtonElement>(null);
+	const yellowRef = useRef<HTMLButtonElement>(null);
+	const blueRef = useRef<HTMLButtonElement>(null);
+	const boardRef = useRef<HTMLDivElement>(null);
 
 	const displayPattern = useCallback((index: number, array: string[]) => {
 		if (index >= array.length) return;
 
-		document.getElementById(array[index])?.classList.add('pressed');
-
-		removeClass(index, array);
+		if (array[index] === 'red') {
+			animatePattern(redRef);
+		} else if (array[index] === 'yellow') {
+			animatePattern(yellowRef);
+		} else if (array[index] === 'blue') {
+			animatePattern(blueRef);
+		} else if (array[index] === 'green') {
+			animatePattern(greenRef);
+		}
 
 		playSound(array[index]);
 
@@ -58,9 +81,9 @@ const useSimonLogic = () => {
 
 	function wrongAnswer() {
 		playSound('wrong');
-		document.getElementById('simon')?.classList.add('game-over');
+		boardRef.current?.classList.add('game-over');
 		setTimeout(() => {
-			document.getElementById('simon')?.classList.remove('game-over');
+			boardRef.current?.classList.remove('game-over');
 		}, 200);
 	}
 
@@ -86,7 +109,18 @@ const useSimonLogic = () => {
 		}
 	}, [userClickedPattern, nextSequence]);
 
-	return { gamePattern, level, handleUserClick, nextSequence, disabled };
+	return {
+		gamePattern,
+		level,
+		handleUserClick,
+		nextSequence,
+		disabled,
+		redRef,
+		blueRef,
+		greenRef,
+		yellowRef,
+		boardRef,
+	};
 };
 
 export default useSimonLogic;

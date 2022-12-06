@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import createBoard from '../utils/createBoard';
 import getCoordsInDirection, {
 	DIRECTION,
@@ -9,6 +9,7 @@ import getNodeGrowthDirection from '../utils/getNodeGrowthDirection';
 import getStartingSnakeCoords from '../utils/getStartingSnakeCoords';
 import isOutOfBoard from '../utils/isOutOfBoard';
 import { Coords, LinkedList, LinkedListNode } from '../utils/linkedList';
+import playSound from '../utils/playSound';
 import randomIntFromInterval from '../utils/randomIntFromInterval';
 import useInterval from '../utils/useInterval';
 
@@ -27,6 +28,7 @@ export default function useSnakeLogic() {
 	const [start, setStart] = useState(false);
 	const [foodCell, setFoodCell] = useState(snake.head.value.cel + 5);
 	const [score, setScore] = useState(0);
+	const boardRef = useRef<HTMLDivElement>(null);
 
 	useInterval(
 		() => {
@@ -120,6 +122,7 @@ export default function useSnakeLogic() {
 
 		setFoodCell(nextFoodCell);
 		setScore(score + 1);
+		playSound('blue');
 	}
 
 	function handleKeyDown(e: KeyboardEvent) {
@@ -140,7 +143,12 @@ export default function useSnakeLogic() {
 		setStart(false);
 		setScore(0);
 		setFoodCell(snakeStartingValue.cel + 5);
+		playSound('wrong');
+		boardRef.current?.classList.add('game-over');
+		setTimeout(() => {
+			boardRef.current?.classList.remove('game-over');
+		}, 200);
 	}
 
-	return { score, handleStart, board, snakeCells, foodCell };
+	return { score, handleStart, board, snakeCells, foodCell, start, boardRef };
 }

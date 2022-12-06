@@ -2,11 +2,21 @@ import Head from 'next/head';
 import useSimonLogic from '../hooks/useSimonLogic';
 
 export default function Page() {
-	const { gamePattern, level, handleUserClick, nextSequence, disabled } =
-		useSimonLogic();
+	const {
+		gamePattern,
+		level,
+		handleUserClick,
+		nextSequence,
+		disabled,
+		blueRef,
+		redRef,
+		yellowRef,
+		greenRef,
+		boardRef,
+	} = useSimonLogic();
 
 	return (
-		<div id="simon" className=" bg-gray-200">
+		<div ref={boardRef} className=" bg-gray-200">
 			<Head>
 				<title>Simon Game</title>
 				<meta name="description" content="Simon Game" />
@@ -14,9 +24,9 @@ export default function Page() {
 			</Head>
 
 			<main className="min-h-screen p-8">
-				<h1 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
+				<h2 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
 					Simon Game
-				</h1>
+				</h2>
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">
 					<h3 className=" font-bold text-xl text-center"> Level: {level}</h3>
 					{gamePattern.current.length === 0 && (
@@ -33,14 +43,14 @@ export default function Page() {
 				<div className="container">
 					<div className="row">
 						<button
-							id="green"
+							ref={greenRef}
 							className="btn green"
 							onClick={(e) => handleUserClick(e, 'green')}
 							disabled={disabled}
 						></button>
 
 						<button
-							id="red"
+							ref={redRef}
 							className="btn red"
 							onClick={(e) => handleUserClick(e, 'red')}
 							disabled={disabled}
@@ -49,13 +59,13 @@ export default function Page() {
 
 					<div className="row">
 						<button
-							id="yellow"
+							ref={yellowRef}
 							className="btn yellow"
 							onClick={(e) => handleUserClick(e, 'yellow')}
 							disabled={disabled}
 						></button>
 						<button
-							id="blue"
+							ref={blueRef}
 							className="btn blue"
 							onClick={(e) => handleUserClick(e, 'blue')}
 							disabled={disabled}

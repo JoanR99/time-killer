@@ -5,6 +5,7 @@ import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
 import RegisterImage from '../components/RegisterImage';
 import Button from '../components/Button';
+import { useRouter } from 'next/router';
 
 type FormProps = {
 	name: string;
@@ -20,9 +21,12 @@ export default function Page() {
 
 	const { signUpWithEmailAndPassword } = useAuth()!;
 
+	const router = useRouter();
+
 	async function submitHandler({ name, email, password }: FormProps) {
 		try {
 			await signUpWithEmailAndPassword(name, email, password);
+			router.push('/login');
 		} catch (e) {
 			console.log(e);
 		}

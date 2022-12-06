@@ -8,17 +8,32 @@ export default function Page() {
 		obstacleBottom,
 		obstacleTop,
 		setStart,
+		start,
+		boardRef,
 	} = useFlappyLogic();
 	return (
-		<div className="flex justify-center gap-20">
+		<div ref={boardRef} className="flex justify-center gap-20">
 			<div>
-				<h1>Flappy Bird</h1>
-				<p>score: {score}</p>
+				<h2 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
+					Flappy Bird
+				</h2>
+				<div className="flex justify-center gap-8 p-4 mb-8 items-center">
+					<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
+					{!start && (
+						<button
+							className="border bg-orange-600 px-2 py-1 rounded-xl font-medium"
+							id="level-title"
+							onClick={() => setStart(true)}
+						>
+							Start
+						</button>
+					)}
+				</div>
 			</div>
 
 			<div className="flex justify-center w-[600px] h-[750px]">
 				<div
-					className="relative h-[750px] w-[50px] bg-white z-20"
+					className="relative h-[750px] w-[50px] bg-[#e8e9eb] z-20"
 					style={{ left: '-225px' }}
 				></div>
 				<div className=" absolute w-[500px] h-[600px] bg-blue-400">
@@ -44,7 +59,7 @@ export default function Page() {
 					></div>
 				</div>
 				<div
-					className="relative h-[750px] w-[50px] bg-white z-20"
+					className="relative h-[750px] w-[50px] bg-[#e8e9eb] z-20"
 					style={{ left: '225px' }}
 				></div>
 			</div>

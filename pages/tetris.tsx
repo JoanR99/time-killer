@@ -11,14 +11,29 @@ function Page() {
 		color,
 		nextColor,
 		nextShape,
+		start,
+		boardRef,
 	} = useTetrisLogic();
 
 	return (
-		<div>
+		<div ref={boardRef}>
 			<div className="flex gap-10 items-start justify-center mt-8">
 				<div>
-					<button onClick={() => setStart(true)}>start</button>
-					<h1>{score}</h1>
+					<h2 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
+						Tetris
+					</h2>
+					<div className="flex justify-center gap-8 p-4 mb-8 items-center">
+						<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
+						{!start && (
+							<button
+								className="border bg-orange-600 px-2 py-1 rounded-xl font-medium"
+								id="level-title"
+								onClick={() => setStart(true)}
+							>
+								Start
+							</button>
+						)}
+					</div>
 				</div>
 				<div className="border border-black bg-gray-300 max-w-fit">
 					{board.current.map((row, ri) => (

@@ -34,9 +34,15 @@ function FormInput({ name, ...otherProps }: Props) {
 						placeholder={otherProps.label}
 						className={`${!!errors[
 							name
-						]} rounded-xl border border-solid border-gray-400 bg-gray-200 p-1 indent-2 w-full`}
+						]} rounded-xl border border-solid border-gray-400 bg-gray-200 p-1 indent-2 w-full mb-2`}
 					/>
-					<span className="">
+					<span
+						className={`${
+							!!errors[name]
+								? ' border rounded-xl border-red-800 bg-red-200 text-red-800 py-1 px-2'
+								: 'hidden'
+						}`}
+					>
 						{errors[name] ? (errors[name]?.message as string) : ''}
 					</span>
 				</div>

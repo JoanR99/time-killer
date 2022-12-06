@@ -77,9 +77,16 @@ export default function Page() {
 	}, [firstChoice, secondChoice]);
 
 	return (
-		<div>
-			<h1>{turns}</h1>
-			<div className="grid grid-cols-8 gap-8 p-8 w-3/4 mx-auto">
+		<div className="flex gap-20">
+			<div className="text-center w-1/6">
+				<h2 className="font-bold text-2xl text-[#DC5F00] mb-2 text-center">
+					Memory
+				</h2>
+				<div className="gap-8 p-4">
+					<h3 className=" font-bold text-xl text-center"> Turns: {turns}</h3>
+				</div>
+			</div>
+			<div className="grid grid-cols-8 gap-8 p-8 mx-auto w-5/6">
 				{cards?.map((card) => (
 					<Card
 						key={card.id}

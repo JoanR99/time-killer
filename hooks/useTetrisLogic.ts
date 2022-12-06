@@ -4,6 +4,7 @@ import getDirectionFromKey from '../utils/getDirectionFromKey';
 import useInterval from '../utils/useInterval';
 import getT from '../utils/tetrominoes';
 import getRandomNumber from '../utils/getRandomNumber';
+import playSound from '../utils/playSound';
 
 const colors = ['orange', 'red', 'yellow', 'green', 'blue'];
 
@@ -45,6 +46,7 @@ export default function useTetrisLogic() {
 	const [takenYellow, setTakenYellow] = useState<Set<number>>(new Set());
 	const [takenGreen, setTakenGreen] = useState<Set<number>>(new Set());
 	const [takenBlue, setTakenBlue] = useState<Set<number>>(new Set());
+	const boardRef = useRef<HTMLDivElement>(null);
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent, row: number, shape: number, rotation: number) => {
@@ -462,6 +464,11 @@ export default function useTetrisLogic() {
 			setTakenYellow(new Set());
 			setTakenGreen(new Set());
 			setTakenBlue(new Set());
+			playSound('wrong');
+			boardRef.current?.classList.add('game-over');
+			setTimeout(() => {
+				boardRef.current?.classList.remove('game-over');
+			}, 200);
 		}
 	}
 
@@ -515,5 +522,7 @@ export default function useTetrisLogic() {
 		color,
 		nextColor,
 		nextShape,
+		start,
+		boardRef,
 	};
 }

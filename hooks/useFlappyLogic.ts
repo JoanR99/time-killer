@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import getDirectionFromKey from '../utils/getDirectionFromKey';
 import useInterval from '../utils/useInterval';
 import getRandomNumber from '../utils/getRandomNumber';
+import playSound from '../utils/playSound';
 
 export default function useFlappyLogic() {
 	const [birdPosition, setBirdPosition] = useState(300);
@@ -10,6 +11,7 @@ export default function useFlappyLogic() {
 	const [obstacleBottom, setObstacleBottom] = useState(225);
 	const [start, setStart] = useState(false);
 	const [score, setScore] = useState(0);
+	const boardRef = useRef<HTMLDivElement>(null);
 
 	const handleKey = useCallback((e: KeyboardEvent) => {
 		const newDirection = getDirectionFromKey(e.key);
@@ -34,6 +36,11 @@ export default function useFlappyLogic() {
 			setObstacleBottom(225);
 			setScore(0);
 			setStart((prevStart) => !prevStart);
+			playSound('wrong');
+			boardRef.current?.classList.add('game-over');
+			setTimeout(() => {
+				boardRef.current?.classList.remove('game-over');
+			}, 200);
 		}
 	}, [birdPosition, obstacle, obstacleBottom, obstacleTop]);
 
@@ -84,5 +91,7 @@ export default function useFlappyLogic() {
 		obstacleBottom,
 		score,
 		setStart,
+		start,
+		boardRef,
 	};
 }

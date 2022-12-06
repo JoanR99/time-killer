@@ -8,7 +8,7 @@ export const loginSchema = object({
 		.email('Email is invalid'),
 	password: string({
 		required_error: 'Password is required',
-	}).min(1, 'Password must be 8 or more characters'),
+	}).min(1, 'Password is required'),
 });
 
 export const defaultValues = {
