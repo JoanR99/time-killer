@@ -1,20 +1,34 @@
+import { cva, VariantProps } from 'class-variance-authority';
 import { ReactNode } from 'react';
 
-type Props = {
+type ButtonProps = {
 	children: ReactNode;
-	variant: 'primary' | 'google';
 	onClick?: (e: MouseEvent) => void;
 };
 
-function Button({ children, variant }: Props) {
+const buttonStyles = cva(
+	'rounded-xl font-normal py-1 px-2 text-center text-white',
+	{
+		variants: {
+			intent: {
+				primary: 'bg-brand',
+				google: 'bg-blue-600',
+			},
+			fullWidth: {
+				true: 'w-full',
+			},
+		},
+		defaultVariants: {
+			intent: 'primary',
+		},
+	}
+);
+
+export interface Props extends ButtonProps, VariantProps<typeof buttonStyles> {}
+
+function Button({ children, intent, fullWidth }: Props) {
 	return (
-		<button
-			className={`rounded-xl font-normal w-full py-1 text-center text-white ${
-				variant === 'primary' ? 'bg-[#dc5f00]' : ' bg-blue-600'
-			}`}
-		>
-			{children}
-		</button>
+		<button className={buttonStyles({ intent, fullWidth })}>{children}</button>
 	);
 }
 

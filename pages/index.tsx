@@ -16,7 +16,7 @@ export default function Home() {
 				</div>
 
 				<div className="w-1/2">
-					<h2 className=" text-2xl text-[#dc5f00] font-extrabold uppercase mb-4">
+					<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
 						Welcome to Time Killer
 					</h2>
 					<p>
@@ -31,7 +31,7 @@ export default function Home() {
 			</div>
 
 			<div className="flex flex-col items-center mt-12">
-				<h2 className=" text-2xl text-[#dc5f00] font-extrabold uppercase mb-4">
+				<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
 					Games
 				</h2>
 				<div
@@ -40,7 +40,7 @@ export default function Home() {
 				>
 					<Link
 						href="simon"
-						className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
+						className="border-[#001524] border- rounded-xl border p-8 bg-[#E0DFD5]"
 					>
 						Simon
 					</Link>

@@ -24,7 +24,7 @@ export default function Page() {
 			</Head>
 
 			<main className="min-h-screen p-8">
-				<h2 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
+				<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
 					Simon Game
 				</h2>
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">

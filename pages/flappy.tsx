@@ -14,7 +14,7 @@ export default function Page() {
 	return (
 		<div ref={boardRef} className="flex justify-center gap-20">
 			<div>
-				<h2 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
+				<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
 					Flappy Bird
 				</h2>
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">

@@ -79,7 +79,7 @@ export default function Page() {
 	return (
 		<div className="flex gap-20">
 			<div className="text-center w-1/6">
-				<h2 className="font-bold text-2xl text-[#DC5F00] mb-2 text-center">
+				<h2 className="font-bold text-2xl text-orange-600 mb-2 text-center">
 					Memory
 				</h2>
 				<div className="gap-8 p-4">

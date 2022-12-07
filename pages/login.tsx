@@ -43,7 +43,7 @@ export default function Page() {
 			</div>
 
 			<div className="w-1/3">
-				<h2 className=" text-2xl text-[#dc5f00] font-extrabold uppercase mb-4">
+				<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
 					Login
 				</h2>
 				<FormProvider {...methods}>
@@ -68,9 +68,11 @@ export default function Page() {
 							id="password"
 						/>
 
-						<Button variant="primary">Login</Button>
+						<Button intent="primary" fullWidth>
+							Login
+						</Button>
 					</form>
-					<Button variant="google" onClick={handleClick}>
+					<Button intent="google" fullWidth onClick={handleClick}>
 						Login with Google
 					</Button>
 				</FormProvider>

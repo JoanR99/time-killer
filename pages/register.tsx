@@ -39,7 +39,7 @@ export default function Page() {
 			</div>
 
 			<div className="w-1/3">
-				<h2 className=" text-2xl text-[#dc5f00] font-extrabold uppercase mb-4">
+				<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
 					Register
 				</h2>
 				<FormProvider {...methods}>
@@ -77,7 +77,9 @@ export default function Page() {
 							id="passwordConfirm"
 						/>
 
-						<Button variant="primary">Register</Button>
+						<Button intent="primary" fullWidth>
+							Register
+						</Button>
 					</form>
 				</FormProvider>
 			</div>

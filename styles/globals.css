@@ -4,7 +4,7 @@
 
 @layer {
 	body {
-		@apply bg-[#e8e9eb];
+		@apply bg-body;
 	}
 }
 
@@ -13,7 +13,7 @@
 }
 
 .btn {
-	@apply m-2 inline-block h-52 w-52 border-[10px] border-black;
+	@apply m-2 inline-block h-52 w-52 border-[10px] border-darkBlue;
 }
 
 .game-over {

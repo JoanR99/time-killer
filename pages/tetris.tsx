@@ -19,7 +19,7 @@ function Page() {
 		<div ref={boardRef}>
 			<div className="flex gap-10 items-start justify-center mt-8">
 				<div>
-					<h2 className="font-bold text-2xl text-[#DC5F00] mb-4 text-center">
+					<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
 						Tetris
 					</h2>
 					<div className="flex justify-center gap-8 p-4 mb-8 items-center">
