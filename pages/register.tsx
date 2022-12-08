@@ -4,7 +4,7 @@ import { registerSchema, defaultValues } from '../validation/registerSchema';
 import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
 import RegisterImage from '../components/RegisterImage';
-import Button from '../components/Button';
+import Button from '../components/Button/Button';
 import { useRouter } from 'next/router';
 
 type FormProps = {

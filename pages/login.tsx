@@ -5,7 +5,7 @@ import FormInput from '../components/FormInput';
 import { useAuth } from '../context/AuthContext';
 import LoginImage from '../components/LoginImage';
 import { useRouter } from 'next/router';
-import Button from '../components/Button';
+import Button from '../components/Button/Button';
 
 type FormProps = {
 	email: string;

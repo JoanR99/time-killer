@@ -21,7 +21,7 @@ type Props = {
 	children: ReactNode;
 };
 
-type Auth = {
+export type Auth = {
 	currentUser: User | null;
 	loading: boolean;
 	logInWithPopup: () => Promise<DocumentReference<DocumentData>>;
@@ -37,7 +37,7 @@ type Auth = {
 	logOut: () => Promise<void>;
 };
 
-const AuthContext = createContext<Auth | null>(null);
+export const AuthContext = createContext<Auth | null>(null);
 
 export function AuthProvider({ children }: Props) {
 	const [currentUser, setCurrentUser] = useState<User | null>(null);
