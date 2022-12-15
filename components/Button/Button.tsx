@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 type ButtonProps = {
 	children: ReactNode;
-	onClick?: (e: MouseEvent) => void;
+	onClick?: () => void;
 };
 
 const buttonStyles = cva(
@@ -26,9 +26,11 @@ const buttonStyles = cva(
 
 export interface Props extends ButtonProps, VariantProps<typeof buttonStyles> {}
 
-function Button({ children, intent, fullWidth }: Props) {
+function Button({ children, intent, fullWidth, onClick }: Props) {
 	return (
-		<button className={buttonStyles({ intent, fullWidth })}>{children}</button>
+		<button className={buttonStyles({ intent, fullWidth })} onClick={onClick}>
+			{children}
+		</button>
 	);
 }
 

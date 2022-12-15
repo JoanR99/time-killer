@@ -1,3 +1,4 @@
+import Button from '../components/Button';
 import useFlappyLogic from '../hooks/useFlappyLogic';
 
 export default function Page() {
@@ -20,13 +21,9 @@ export default function Page() {
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">
 					<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
 					{!start && (
-						<button
-							className="border bg-orange-600 px-2 py-1 rounded-xl font-medium"
-							id="level-title"
-							onClick={() => setStart(true)}
-						>
+						<Button intent="primary" onClick={() => setStart(true)}>
 							Start
-						</button>
+						</Button>
 					)}
 				</div>
 			</div>

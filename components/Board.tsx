@@ -1,4 +1,5 @@
 import useSnakeLogic from '../hooks/useSnakeLogic';
+import Button from './Button';
 
 const Board = () => {
 	const { score, handleStart, board, snakeCells, foodCell, start, boardRef } =
@@ -12,13 +13,9 @@ const Board = () => {
 			<div className="flex justify-center gap-8 p-4 mb-8 items-center">
 				<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
 				{!start && (
-					<button
-						className="border bg-orange-600 px-2 py-1 rounded-xl font-medium"
-						id="level-title"
-						onClick={handleStart}
-					>
+					<Button intent="primary" onClick={handleStart}>
 						Start
-					</button>
+					</Button>
 				)}
 			</div>
 

@@ -2,26 +2,26 @@ import { useEffect, useState } from 'react';
 import Card from '../components/Card';
 
 const data = [
-	{ url: '1', active: false },
-	{ url: '2', active: false },
-	{ url: '3', active: false },
-	{ url: '4', active: false },
-	{ url: '5', active: false },
-	{ url: '6', active: false },
-	{ url: '7', active: false },
-	{ url: '8', active: false },
-	{ url: '9', active: false },
-	{ url: '10', active: false },
-	{ url: '11', active: false },
-	{ url: '12', active: false },
-	{ url: '13', active: false },
-	{ url: '14', active: false },
-	{ url: '15', active: false },
-	{ url: '16', active: false },
+	{ name: 'react', active: false },
+	{ name: 'vue', active: false },
+	{ name: 'angular', active: false },
+	{ name: 'svelte', active: false },
+	{ name: 'next', active: false },
+	{ name: 'nuxt', active: false },
+	{ name: 'express', active: false },
+	{ name: 'nest', active: false },
+	{ name: 'mongo', active: false },
+	{ name: 'postgres', active: false },
+	{ name: 'tailwind', active: false },
+	{ name: 'javascript', active: false },
+	{ name: 'typescript', active: false },
+	{ name: 'html', active: false },
+	{ name: 'css', active: false },
+	{ name: 'sass', active: false },
 ];
 
 export type CardContent = {
-	url: string;
+	name: string;
 	id: number;
 	active: boolean;
 };
@@ -59,10 +59,13 @@ export default function Page() {
 	useEffect(() => {
 		if (firstChoice && secondChoice) {
 			setDisabled(true);
-			if (firstChoice.url === secondChoice.url) {
+			if (firstChoice.name === secondChoice.name) {
 				setCards((prevCards) =>
 					prevCards.map((card) => {
-						if (card.url === firstChoice.url || card.url === secondChoice.url) {
+						if (
+							card.name === firstChoice.name ||
+							card.name === secondChoice.name
+						) {
 							return { ...card, active: true };
 						} else {
 							return card;

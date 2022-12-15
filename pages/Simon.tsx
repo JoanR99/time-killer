@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Button from '../components/Button';
 import useSimonLogic from '../hooks/useSimonLogic';
 
 export default function Page() {
@@ -30,13 +31,9 @@ export default function Page() {
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">
 					<h3 className=" font-bold text-xl text-center"> Level: {level}</h3>
 					{gamePattern.current.length === 0 && (
-						<button
-							className="border bg-orange-600 px-2 py-1 rounded-xl font-medium"
-							id="level-title"
-							onClick={() => nextSequence()}
-						>
+						<Button intent="primary" onClick={() => nextSequence()}>
 							Start
-						</button>
+						</Button>
 					)}
 				</div>
 
