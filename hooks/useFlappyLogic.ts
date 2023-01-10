@@ -3,6 +3,8 @@ import getDirectionFromKey from '../utils/getDirectionFromKey';
 import useInterval from '../utils/useInterval';
 import getRandomNumber from '../utils/getRandomNumber';
 import playSound from '../utils/playSound';
+import { useAuth } from '../context/AuthContext';
+import { addRecord, addTopScore } from '../firebase';
 
 export default function useFlappyLogic() {
 	const [birdPosition, setBirdPosition] = useState(300);
@@ -12,6 +14,7 @@ export default function useFlappyLogic() {
 	const [start, setStart] = useState(false);
 	const [score, setScore] = useState(0);
 	const boardRef = useRef<HTMLDivElement>(null);
+	const auth = useAuth();
 
 	const handleKey = useCallback((e: KeyboardEvent) => {
 		const newDirection = getDirectionFromKey(e.key);
@@ -23,7 +26,7 @@ export default function useFlappyLogic() {
 		);
 	}, []);
 
-	const handleGameOver = useCallback(() => {
+	const handleGameOver = useCallback(async () => {
 		if (
 			(obstacle <= -125 &&
 				obstacle >= -225 &&
@@ -41,6 +44,10 @@ export default function useFlappyLogic() {
 			setTimeout(() => {
 				boardRef.current?.classList.remove('game-over');
 			}, 200);
+			if (auth?.currentUser) {
+				await addTopScore(auth?.currentUser, 'flappy', score);
+				await addRecord(auth?.currentUser, 'flappy', score);
+			}
 		}
 	}, [birdPosition, obstacle, obstacleBottom, obstacleTop]);
 

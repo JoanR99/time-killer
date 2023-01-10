@@ -12,6 +12,8 @@ import { Coords, LinkedList, LinkedListNode } from '../utils/linkedList';
 import playSound from '../utils/playSound';
 import randomIntFromInterval from '../utils/randomIntFromInterval';
 import useInterval from '../utils/useInterval';
+import { useAuth } from '../context/AuthContext';
+import { addRecord, addTopScore } from '../firebase';
 
 const BOARD_SIZE = 15;
 
@@ -29,6 +31,7 @@ export default function useSnakeLogic() {
 	const [foodCell, setFoodCell] = useState(snake.head.value.cel + 5);
 	const [score, setScore] = useState(0);
 	const boardRef = useRef<HTMLDivElement>(null);
+	const auth = useAuth();
 
 	useInterval(
 		() => {
@@ -135,7 +138,7 @@ export default function useSnakeLogic() {
 
 	const handleStart = () => setStart(true);
 
-	function handleGameOver() {
+	async function handleGameOver() {
 		const snakeStartingValue = getStartingSnakeCoords(board);
 		setSnake(new LinkedList(snakeStartingValue));
 		setSnakeCells(new Set([snakeStartingValue.cel]));
@@ -148,6 +151,10 @@ export default function useSnakeLogic() {
 		setTimeout(() => {
 			boardRef.current?.classList.remove('game-over');
 		}, 200);
+		if (auth?.currentUser) {
+			await addTopScore(auth?.currentUser, 'snake', score);
+			await addRecord(auth?.currentUser, 'snake', score);
+		}
 	}
 
 	return { score, handleStart, board, snakeCells, foodCell, start, boardRef };

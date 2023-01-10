@@ -8,6 +8,8 @@ import {
 } from 'react';
 import animatePress from '../utils/animatePress';
 import playSound from '../utils/playSound';
+import { useAuth } from '../context/AuthContext';
+import { addRecord, addTopScore } from '../firebase';
 
 const buttonColors = ['red', 'blue', 'green', 'yellow'];
 
@@ -27,6 +29,7 @@ const useSimonLogic = () => {
 	const yellowRef = useRef<HTMLButtonElement>(null);
 	const blueRef = useRef<HTMLButtonElement>(null);
 	const boardRef = useRef<HTMLDivElement>(null);
+	const auth = useAuth();
 
 	const displayPattern = useCallback((index: number, array: string[]) => {
 		if (index >= array.length) return;
@@ -79,12 +82,16 @@ const useSimonLogic = () => {
 		setDisabled(true);
 	}
 
-	function wrongAnswer() {
+	async function wrongAnswer() {
 		playSound('wrong');
 		boardRef.current?.classList.add('game-over');
 		setTimeout(() => {
 			boardRef.current?.classList.remove('game-over');
 		}, 200);
+		if (auth?.currentUser) {
+			await addTopScore(auth?.currentUser, 'simon', level);
+			await addRecord(auth?.currentUser, 'simon', level);
+		}
 	}
 
 	useEffect(() => {

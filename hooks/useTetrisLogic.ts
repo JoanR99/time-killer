@@ -5,6 +5,8 @@ import useInterval from '../utils/useInterval';
 import getT from '../utils/tetrominoes';
 import getRandomNumber from '../utils/getRandomNumber';
 import playSound from '../utils/playSound';
+import { useAuth } from '../context/AuthContext';
+import { addRecord, addTopScore } from '../firebase';
 
 const colors = ['orange', 'red', 'yellow', 'green', 'blue'];
 
@@ -47,6 +49,7 @@ export default function useTetrisLogic() {
 	const [takenGreen, setTakenGreen] = useState<Set<number>>(new Set());
 	const [takenBlue, setTakenBlue] = useState<Set<number>>(new Set());
 	const boardRef = useRef<HTMLDivElement>(null);
+	const auth = useAuth();
 
 	const handleKeyDown = useCallback(
 		(e: KeyboardEvent, row: number, shape: number, rotation: number) => {
@@ -434,7 +437,7 @@ export default function useTetrisLogic() {
 		});
 	}
 
-	function gameOver() {
+	async function gameOver() {
 		const currentStartingShapePos = getShapeCoords(
 			board.current,
 			0,
@@ -469,6 +472,10 @@ export default function useTetrisLogic() {
 			setTimeout(() => {
 				boardRef.current?.classList.remove('game-over');
 			}, 200);
+		}
+		if (auth?.currentUser) {
+			await addTopScore(auth?.currentUser, 'tetris', score);
+			await addRecord(auth?.currentUser, 'tetris', score);
 		}
 	}
 

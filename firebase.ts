@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, User } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+	getFirestore,
+	doc,
+	getDoc,
+	setDoc,
+	collection,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -14,6 +20,75 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+export const addTopScore = async (
+	user: User,
+	gameName: string,
+	score: number
+) => {
+	const userDocRef = doc(db, 'users', user.uid);
+	const userSnapshot = await getDoc(userDocRef);
+	const userScores = userSnapshot?.data()?.scores;
+
+	if (
+		!userScores ||
+		!userScores[gameName] ||
+		(gameName === 'memory' && score < userScores[gameName]) ||
+		(gameName !== 'memory' && userScores[gameName] < score)
+	) {
+		const data = {
+			scores: {
+				...userScores,
+				[gameName]: score,
+			},
+		};
+
+		await setDoc(userDocRef, data, { merge: true });
+	}
+};
+
+export const addRecord = async (
+	user: User,
+	gameName: string,
+	score: number
+) => {
+	const newScore = {
+		score,
+		user: `/users/${user.uid}`,
+		userName: user.displayName,
+	};
+	const recordDocRef = doc(db, 'records', gameName);
+	const gameRecordsSnapshot = await getDoc(recordDocRef);
+
+	const gameRecords = gameRecordsSnapshot.data()?.top;
+	if (gameRecords) {
+		console.log(gameRecords[gameRecords.length - 1]);
+		if (
+			gameRecords.length < 10 ||
+			(gameName === 'memory' &&
+				gameRecords[gameRecords.length - 1].score > score) ||
+			(gameName !== 'memory' &&
+				gameRecords[gameRecords.length - 1].score < score)
+		) {
+			const newRecordList =
+				gameName === 'memory'
+					? [...(gameRecords as []), newScore].sort((a, b) => a.score - b.score)
+					: [...(gameRecords as []), newScore].sort(
+							(a, b) => b.score - a.score
+					  );
+
+			if (newRecordList?.length > 10) {
+				await setDoc(recordDocRef, {
+					top: [...newRecordList.filter((v, i) => i <= 9)],
+				});
+			} else {
+				await setDoc(recordDocRef, { top: [...newRecordList] });
+			}
+		}
+	} else {
+		await setDoc(recordDocRef, { top: [newScore] });
+	}
+};
 
 export const googleProvider = new GoogleAuthProvider();
 
