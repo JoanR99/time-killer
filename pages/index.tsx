@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import ImageCard from '../components/ImageCard';
 import LandingImage from '../components/LandingImage';
 
 export default function Home() {
@@ -38,40 +39,21 @@ export default function Home() {
 					className="flex gap-4 items-center
 				"
 				>
-					<Link
-						href="simon"
-						className="border-[#001524] border- rounded-xl border p-8 bg-[#E0DFD5]"
-					>
-						Simon
-					</Link>
+					<ImageCard src="/images/simon.png" alt="simon game">
+						<Link href="simon">Simon</Link>
+					</ImageCard>
 
-					<Link
-						href="snake"
-						className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
-					>
-						Snake
-					</Link>
+					<ImageCard src="/images/snake.png" alt="snake game">
+						<Link href="snake">Snake</Link>
+					</ImageCard>
 
-					<Link
-						href="tetris"
-						className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
-					>
-						Tetris
-					</Link>
+					<ImageCard src="/images/flappy.png" alt="flappy game">
+						<Link href="flappy">Flappy Bird</Link>
+					</ImageCard>
 
-					<Link
-						href="flappy"
-						className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
-					>
-						Flappy Bird
-					</Link>
-
-					<Link
-						href="memory"
-						className="border-[#001524] rounded-xl border p-8 bg-[#E0DFD5]"
-					>
-						Memory
-					</Link>
+					<ImageCard src="/images/memory.png" alt="memory game">
+						<Link href="memory">Memory</Link>
+					</ImageCard>
 				</div>
 			</div>
 		</div>
