@@ -62,7 +62,6 @@ export const addRecord = async (
 
 	const gameRecords = gameRecordsSnapshot.data()?.top;
 	if (gameRecords) {
-		console.log(gameRecords[gameRecords.length - 1]);
 		if (
 			gameRecords.length < 10 ||
 			(gameName === 'memory' &&
