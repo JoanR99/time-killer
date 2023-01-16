@@ -10,16 +10,16 @@ export type PLAYER = {
 		y: number;
 	};
 	tetromino: (string | number)[][];
-	collided: boolean;
 	color: string;
+	collided: boolean;
 };
+
+export type NextShape = Pick<PLAYER, 'tetromino' | 'color'>;
 
 const usePlayer = () => {
 	const [player, setPlayer] = useState({} as PLAYER);
-	const [nextPlayer, setNextPlayer] = useState<PLAYER>({
-		pos: { x: WIDTH / 2 - 2, y: 0 },
+	const [nextShape, setNextShape] = useState<NextShape>({
 		tetromino: randomTetromino().shape,
-		collided: false,
 		color: getRandomColor(),
 	});
 
@@ -67,16 +67,19 @@ const usePlayer = () => {
 	};
 
 	const resetPlayer = useCallback((): void => {
-		setPlayer(nextPlayer);
-		setNextPlayer({
+		setPlayer({
 			pos: { x: WIDTH / 2 - 2, y: 0 },
-			tetromino: randomTetromino().shape,
+			tetromino: nextShape.tetromino,
+			color: nextShape.color,
 			collided: false,
+		});
+		setNextShape({
+			tetromino: randomTetromino().shape,
 			color: getRandomColor(),
 		});
-	}, [nextPlayer]);
+	}, [nextShape]);
 
-	return { player, nextPlayer, updatePlayerPos, resetPlayer, playerRotate };
+	return { player, nextShape, updatePlayerPos, resetPlayer, playerRotate };
 };
 
 export default usePlayer;

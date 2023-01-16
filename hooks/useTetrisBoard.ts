@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PLAYER } from './usePlayer';
+import { NextShape, PLAYER } from './usePlayer';
 
 export const WIDTH = 12;
 export const HEIGHT = 20;
@@ -14,11 +14,11 @@ export const createBoard = (height: number, width: number) =>
 
 const useTetrisBoard = (
 	player: PLAYER,
-	nextPlayer: PLAYER,
+	nextShape: NextShape,
 	resetPlayer: () => void
 ) => {
 	const [board, setBoard] = useState(createBoard(HEIGHT, WIDTH));
-	const [nextBoard, setNextBoard] = useState(createBoard(6, 10));
+	const [nextBoard, setNextBoard] = useState(createBoard(6, 6));
 	const [rowsCleared, setRowsCleared] = useState(0);
 
 	useEffect(() => {
@@ -30,14 +30,10 @@ const useTetrisBoard = (
 					) as BOARDCELL[]
 			);
 
-			nextPlayer.tetromino.forEach((row, y) => {
+			nextShape.tetromino?.forEach((row, y) => {
 				row.forEach((value, x) => {
 					if (value !== 0) {
-						newBoard[y + nextPlayer.pos.y][x + nextPlayer.pos.x] = [
-							value,
-							`${nextPlayer.collided ? 'merged' : 'clear'}`,
-							nextPlayer.color,
-						];
+						newBoard[y][x + 2] = [value, 'clear', nextShape.color];
 					}
 				});
 			});
@@ -46,13 +42,7 @@ const useTetrisBoard = (
 		};
 
 		setNextBoard((prev) => updateBoard(prev));
-	}, [
-		nextPlayer.pos,
-		nextPlayer.collided,
-		nextPlayer.color,
-		nextPlayer.tetromino,
-		resetPlayer,
-	]);
+	}, [nextShape, resetPlayer]);
 
 	useEffect(() => {
 		if (!player.pos) return;

@@ -20,11 +20,11 @@ function Page() {
 	const [dropTime, setDroptime] = useState<null | number>(null);
 	const [gameOver, setGameOver] = useState(true);
 
-	const { player, nextPlayer, updatePlayerPos, resetPlayer, playerRotate } =
+	const { player, nextShape, updatePlayerPos, resetPlayer, playerRotate } =
 		usePlayer();
 	const { board, nextBoard, setBoard, rowsCleared } = useTetrisBoard(
 		player,
-		nextPlayer,
+		nextShape,
 		resetPlayer
 	);
 	const { score, setScore, rows, setRows, level, setLevel } =
