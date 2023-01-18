@@ -1,19 +1,95 @@
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Button from '../components/Button';
-import useFlappyLogic from '../hooks/useFlappyLogic';
+import { useAuth } from '../context/AuthContext';
+import { addRecord, addTopScore } from '../firebase';
+import useBird from '../hooks/useBird';
+import useObstacle from '../hooks/useObstacle';
+import playSound from '../utils/playSound';
+import useInterval from '../utils/useInterval';
 
 export default function Page() {
+	const [start, setStart] = useState(false);
+	const [score, setScore] = useState(0);
+	const gameArea = useRef<HTMLDivElement>(null);
+	const [speedTime, setSpeedTime] = useState<null | number>(null);
+	const { birdPosition, fly, fall, resetBird } = useBird();
 	const {
-		score,
-		birdPosition,
 		obstacle,
 		obstacleBottom,
 		obstacleTop,
-		setStart,
-		start,
-		boardRef,
-	} = useFlappyLogic();
+		getNewObs,
+		updateObstaclePosition,
+		resetObstacle,
+	} = useObstacle();
+	const auth = useAuth();
+
+	const keyUp = ({ keyCode }: { keyCode: number }): void => {
+		if (start) {
+			if (keyCode === 38) {
+				fly();
+			}
+		}
+	};
+
+	const moveBirdAndObstacle = () => {
+		fall();
+		updateObstaclePosition();
+	};
+
+	const handleStartGame = (): void => {
+		if (gameArea.current) gameArea.current.focus();
+
+		setSpeedTime(25);
+		resetBird();
+		setScore(0);
+		setStart(true);
+	};
+
+	const handleGameOver = async () => {
+		resetObstacle();
+		resetBird();
+		setScore(0);
+		setStart(false);
+		setSpeedTime(null);
+		playSound('wrong');
+		gameArea.current?.classList.add('game-over');
+		setTimeout(() => {
+			gameArea.current?.classList.remove('game-over');
+		}, 200);
+		if (auth?.currentUser) {
+			await addTopScore(auth?.currentUser, 'flappy', score);
+			await addRecord(auth?.currentUser, 'flappy', score);
+		}
+	};
+
+	useInterval(() => {
+		moveBirdAndObstacle();
+	}, speedTime);
+
+	const collideZone = () => obstacle <= -125 && obstacle >= -225;
+
+	const topCollide = () => birdPosition > 550 - obstacleTop;
+
+	const bottomCollide = () => birdPosition < obstacleBottom;
+
+	useEffect(() => {
+		if (collideZone() && (topCollide() || bottomCollide())) {
+			handleGameOver();
+		}
+		if (obstacle < -274) {
+			getNewObs();
+			setScore((prevScore) => ++prevScore);
+		}
+	}, [obstacle, handleGameOver, getNewObs]);
+
 	return (
-		<div ref={boardRef} className="flex justify-center gap-20">
+		<div
+			role="button"
+			tabIndex={0}
+			onKeyUp={keyUp}
+			ref={gameArea}
+			className="flex justify-center gap-20"
+		>
 			<div>
 				<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
 					Flappy Bird
@@ -21,7 +97,7 @@ export default function Page() {
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">
 					<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
 					{!start && (
-						<Button intent="primary" onClick={() => setStart(true)}>
+						<Button intent="primary" onClick={handleStartGame}>
 							Start
 						</Button>
 					)}
