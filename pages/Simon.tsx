@@ -3,30 +3,19 @@ import { useRef, useState, useEffect } from 'react';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
 import { addRecord, addTopScore } from '../firebase';
-import useSimomPattern, { ButtonColor } from '../hooks/useSimonPattern';
 import playSound from '../utils/playSound';
 
-type IsPressed = {
-	red: boolean;
-	yellow: boolean;
-	blue: boolean;
-	green: boolean;
-};
+const buttonColors: ButtonColor[] = ['red', 'blue', 'green', 'yellow'];
 
-type Color = keyof IsPressed;
+export type ButtonColor = 'red' | 'blue' | 'green' | 'yellow';
+
+type IsPressed = Record<ButtonColor, boolean>;
 
 export default function Page() {
 	const [level, setLevel] = useState(0);
 	const [disabled, setDisabled] = useState(true);
-	const boardRef = useRef<HTMLDivElement>(null);
+	const [isGameOver, setIsGameOver] = useState(false);
 	const auth = useAuth();
-	const {
-		gamePattern,
-		setUserClickedPattern,
-		userClickedPattern,
-		resetPatterns,
-		addRandomColorToPattern,
-	} = useSimomPattern();
 
 	const [isPressed, setIsPressed] = useState<IsPressed>({
 		red: false,
@@ -35,7 +24,21 @@ export default function Page() {
 		green: false,
 	});
 
-	const animatePress = (color: Color) => {
+	const gamePattern = useRef<ButtonColor[]>([]);
+	const userClickedPattern = useRef<ButtonColor[]>([]);
+
+	const resetPatterns = () => {
+		gamePattern.current = [];
+		userClickedPattern.current = [];
+	};
+
+	const addRandomColorToPattern = () => {
+		const randomNumber = Math.round(Math.random() * 3);
+		const randomChosenColor = buttonColors[randomNumber];
+		gamePattern.current = [...gamePattern.current, randomChosenColor];
+	};
+
+	const animatePress = (color: ButtonColor) => {
 		setIsPressed((prev) => ({
 			...prev,
 			[color]: true,
@@ -63,6 +66,11 @@ export default function Page() {
 		setTimeout(() => displayPattern(index, colorPattern), 500);
 	};
 
+	const handleStart = () => {
+		setDisabled(false);
+		nextSequence();
+	};
+
 	const nextSequence = () => {
 		addRandomColorToPattern();
 
@@ -71,16 +79,27 @@ export default function Page() {
 		}, 500);
 
 		setLevel((prevLevel) => prevLevel + 1);
-		setDisabled(false);
 	};
 
 	const handleClick = (color: ButtonColor) => {
-		setUserClickedPattern((prevPattern: ButtonColor[]) => [
-			...prevPattern,
-			color,
-		]);
+		userClickedPattern.current = [...userClickedPattern.current, color];
 		playSound(color);
 		animatePress(color);
+
+		const currentLevel = userClickedPattern.current.length - 1;
+
+		if (
+			userClickedPattern.current[currentLevel] ===
+			gamePattern.current[currentLevel]
+		) {
+			if (userClickedPattern.current.length === gamePattern.current.length) {
+				userClickedPattern.current = [];
+				setTimeout(nextSequence, 1000);
+			}
+		} else {
+			wrongAnswer();
+			startOver();
+		}
 	};
 
 	function startOver() {
@@ -91,9 +110,9 @@ export default function Page() {
 
 	async function wrongAnswer() {
 		playSound('wrong');
-		boardRef.current?.classList.add('game-over');
+		setIsGameOver(true);
 		setTimeout(() => {
-			boardRef.current?.classList.remove('game-over');
+			setIsGameOver(false);
 		}, 200);
 		if (auth?.currentUser) {
 			await addTopScore(auth?.currentUser, 'simon', level);
@@ -101,30 +120,8 @@ export default function Page() {
 		}
 	}
 
-	useEffect(() => {
-		const checkAnswer = () => {
-			const currentLevel = userClickedPattern.length - 1;
-
-			if (
-				userClickedPattern[currentLevel] === gamePattern.current[currentLevel]
-			) {
-				if (userClickedPattern.length === gamePattern.current.length) {
-					setTimeout(nextSequence, 1000);
-					setUserClickedPattern([]);
-					setDisabled(false);
-				}
-			} else {
-				wrongAnswer();
-				startOver();
-			}
-		};
-		if (userClickedPattern.length > 0) {
-			checkAnswer();
-		}
-	}, [userClickedPattern, gamePattern]);
-
 	return (
-		<div ref={boardRef} className=" bg-gray-200">
+		<div className={`bg-gray-200 ${isGameOver ? 'game-over' : ''}`}>
 			<Head>
 				<title>Simon Game</title>
 				<meta name="description" content="Simon Game" />
@@ -138,7 +135,7 @@ export default function Page() {
 				<div className="flex justify-center gap-8 p-4 mb-8 items-center">
 					<h3 className=" font-bold text-xl text-center"> Level: {level}</h3>
 					{gamePattern.current.length === 0 && (
-						<Button intent="primary" onClick={nextSequence}>
+						<Button intent="primary" onClick={handleStart}>
 							Start
 						</Button>
 					)}

@@ -54,6 +54,10 @@ export default function Home() {
 					<ImageCard src="/images/memory.png" alt="memory game">
 						<Link href="memory">Memory</Link>
 					</ImageCard>
+
+					<ImageCard src="/images/tetris.png" alt="tetris game">
+						<Link href="tetris">Tetris</Link>
+					</ImageCard>
 				</div>
 			</div>
 		</div>

@@ -59,11 +59,11 @@ const usePlayer = () => {
 		y: number;
 		collided: boolean;
 	}): void => {
-		setPlayer((prev) => ({
-			...prev,
-			pos: { x: (prev.pos.x += x), y: (prev.pos.y += y) },
+		setPlayer({
+			...player,
+			pos: { x: (player.pos.x += x), y: (player.pos.y += y) },
 			collided,
-		}));
+		});
 	};
 
 	const resetPlayer = useCallback((): void => {
