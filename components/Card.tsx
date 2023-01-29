@@ -1,4 +1,4 @@
-import { CardContent } from '../pages/memory';
+import { CardContent } from './MemoryGame';
 import { FaReact, FaAngular, FaBrain } from 'react-icons/fa';
 import { RiVuejsFill } from 'react-icons/ri';
 import {
@@ -66,16 +66,16 @@ export default function Card({ card, handleChoice, active, disabled }: Props) {
 	}
 
 	return (
-		<div className={`card h-40 w-full}`}>
+		<div className={`card h-32 w-full}`}>
 			<div
-				className={`side h-40 front flex items-center justify-center ${
+				className={`side h-32 front flex items-center justify-center ${
 					active ? 'front--active' : ''
 				}`}
 			>
 				{getIcon(card.name)}
 			</div>
 			<div
-				className={`side h-40 back flex items-center justify-center  ${
+				className={`side h-32 back flex items-center justify-center  ${
 					active ? 'back--active' : ''
 				}`}
 				onClick={handleClick}

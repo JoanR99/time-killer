@@ -106,7 +106,7 @@ const MemoryGame = () => {
 	}, []);
 
 	return (
-		<div className="flex gap-20">
+		<div className="flex gap-20 w-full mt-4">
 			<div className="text-center w-1/6">
 				<h2 className="font-bold text-2xl text-orange-600 mb-2 text-center">
 					Memory
