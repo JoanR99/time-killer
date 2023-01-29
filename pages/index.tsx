@@ -40,7 +40,7 @@ export default function Home() {
 				"
 				>
 					<ImageCard src="/images/simon.png" alt="simon game">
-						<Link href="simon">Simon</Link>
+						<Link href="Simon">Simon</Link>
 					</ImageCard>
 
 					<ImageCard src="/images/snake.png" alt="snake game">
