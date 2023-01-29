@@ -134,7 +134,7 @@ const SnakeGame = () => {
 			tabIndex={0}
 			onKeyDown={keyDown}
 			ref={boardRef}
-			className="outline-none"
+			className="outline-none mx-auto"
 		>
 			<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
 				Snake Game
