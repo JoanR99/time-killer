@@ -117,7 +117,7 @@ const TetrisGame = () => {
 			onKeyDown={move}
 			onKeyUp={keyUp}
 			ref={gameArea}
-			className="outline-none"
+			className="outline-none mx-auto"
 		>
 			<div className="flex gap-10 items-start justify-center mt-8">
 				<div>
