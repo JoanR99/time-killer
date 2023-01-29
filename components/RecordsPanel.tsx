@@ -16,6 +16,8 @@ const RecordsPanel = ({ gameName }: Props) => {
 	const [userRecord, setUserRecords] = useState(0);
 	const [gameRecords, setGameRecords] = useState<ScoreInfo[]>([]);
 
+	console.log(auth);
+
 	useEffect(() => {
 		async function getRecords() {
 			if (!auth?.currentUser) return;
