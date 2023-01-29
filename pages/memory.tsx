@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Card from '../components/Card';
 import { useAuth } from '../context/AuthContext';
-import { addRecord, addTopScore } from '../firebase';
+import { addUserScore } from '../firebase';
 
 const data = [
 	{ name: 'react', active: false },
@@ -97,8 +97,7 @@ export default function Page() {
 
 	async function submitScore(turns: number) {
 		if (auth?.currentUser) {
-			await addTopScore(auth?.currentUser, 'memory', turns);
-			await addRecord(auth?.currentUser, 'memory', turns);
+			await addUserScore(auth?.currentUser, 'memory', turns);
 		}
 	}
 

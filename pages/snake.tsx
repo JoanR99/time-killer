@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { addRecord, addTopScore } from '../firebase';
+import { addUserScore } from '../firebase';
 import useSnake from '../hooks/useSnake';
 import createBoard from '../utils/createBoard';
 import getCoordsInDirection, { Direction } from '../utils/getCoordsInDirection';
@@ -74,8 +74,7 @@ export default function Page() {
 			boardRef.current?.classList.remove('game-over');
 		}, 200);
 		if (auth?.currentUser) {
-			await addTopScore(auth?.currentUser, 'snake', score);
-			await addRecord(auth?.currentUser, 'snake', score);
+			await addUserScore(auth?.currentUser, 'snake', score);
 		}
 	}
 

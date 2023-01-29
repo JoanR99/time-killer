@@ -11,7 +11,7 @@ import { useTetrisStatus } from '../hooks/useTetrisStatus';
 import { isColliding } from '../utils/isColliding';
 import playSound from '../utils/playSound';
 import useInterval from '../utils/useInterval';
-import { addRecord, addTopScore } from '../firebase';
+import { addUserScore } from '../firebase';
 
 function Page() {
 	const gameArea = useRef<HTMLDivElement>(null);
@@ -98,8 +98,7 @@ function Page() {
 					gameArea.current?.classList.remove('game-over');
 				}, 200);
 				if (auth?.currentUser) {
-					await addTopScore(auth?.currentUser, 'tetris', score);
-					await addRecord(auth?.currentUser, 'tetris', score);
+					await addUserScore(auth?.currentUser, 'tetris', score);
 				}
 			}
 

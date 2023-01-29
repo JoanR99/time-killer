@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
-import { addRecord, addTopScore } from '../firebase';
+import { addUserScore } from '../firebase';
 import getRandomNumber from '../utils/getRandomNumber';
 import playSound from '../utils/playSound';
 import useInterval from '../utils/useInterval';
@@ -93,8 +93,7 @@ export default function Page() {
 			gameArea.current?.classList.remove('game-over');
 		}, 200);
 		if (auth?.currentUser) {
-			await addTopScore(auth?.currentUser, 'flappy', score);
-			await addRecord(auth?.currentUser, 'flappy', score);
+			await addUserScore(auth?.currentUser, 'flappy', score);
 		}
 	};
 
