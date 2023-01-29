@@ -6,7 +6,19 @@ import {
 	getDoc,
 	setDoc,
 	collection,
+	getDocs,
+	query,
 } from 'firebase/firestore';
+
+export type ScoreInfo = {
+	score: number;
+	userName: string;
+	user: string;
+};
+
+export type GameName = 'flappy' | 'memory' | 'tetris' | 'snake' | 'simon';
+
+type UserRecords = Record<GameName, number>;
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -21,24 +33,48 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-export const addTopScore = async (
-	user: User,
-	gameName: string,
+const isUserPersonalRecord = (
+	gameName: GameName,
+	score: number,
+	userScores: UserRecords | null
+) => {
+	if (!userScores || !userScores[gameName]) return true;
+
+	const isUserMemoryRecord =
+		gameName === 'memory' && score < userScores[gameName];
+	const isUserRecord = gameName !== 'memory' && userScores[gameName] < score;
+
+	return isUserMemoryRecord || isUserRecord;
+};
+
+const isGameTopRecord = (
+	gameName: GameName,
+	score: number,
+	gameRecords: ScoreInfo[]
+) => {
+	const isMemoryRecord =
+		gameName === 'memory' && gameRecords[gameRecords.length - 1].score > score;
+	const isGameRecord =
+		gameName !== 'memory' && gameRecords[gameRecords.length - 1].score < score;
+
+	return gameRecords.length < 10 || isMemoryRecord || isGameRecord;
+};
+
+export const addUserTopScore = async (
+	userId: string,
+	gameName: GameName,
 	score: number
 ) => {
-	const userDocRef = doc(db, 'users', user.uid);
+	const userDocRef = doc(db, 'users', userId);
 	const userSnapshot = await getDoc(userDocRef);
-	const userScores = userSnapshot?.data()?.scores;
+	const user = userSnapshot.data();
 
-	if (
-		!userScores ||
-		!userScores[gameName] ||
-		(gameName === 'memory' && score < userScores[gameName]) ||
-		(gameName !== 'memory' && userScores[gameName] < score)
-	) {
+	if (!user) return;
+
+	if (isUserPersonalRecord(gameName, score, user.scores)) {
 		const data = {
 			scores: {
-				...userScores,
+				...user.scores,
 				[gameName]: score,
 			},
 		};
@@ -47,46 +83,97 @@ export const addTopScore = async (
 	}
 };
 
-export const addRecord = async (
+export const addGameTopScore = async (
 	user: User,
-	gameName: string,
+	gameName: GameName,
 	score: number
 ) => {
-	const newScore = {
+	const newScore: ScoreInfo = {
 		score,
 		user: `/users/${user.uid}`,
-		userName: user.displayName,
+		userName: user.displayName!,
 	};
 	const recordDocRef = doc(db, 'records', gameName);
 	const gameRecordsSnapshot = await getDoc(recordDocRef);
 
-	const gameRecords = gameRecordsSnapshot.data()?.top;
-	if (gameRecords) {
-		if (
-			gameRecords.length < 10 ||
-			(gameName === 'memory' &&
-				gameRecords[gameRecords.length - 1].score > score) ||
-			(gameName !== 'memory' &&
-				gameRecords[gameRecords.length - 1].score < score)
-		) {
-			const newRecordList =
-				gameName === 'memory'
-					? [...(gameRecords as []), newScore].sort((a, b) => a.score - b.score)
-					: [...(gameRecords as []), newScore].sort(
-							(a, b) => b.score - a.score
-					  );
+	const gameRecords = gameRecordsSnapshot.data();
 
-			if (newRecordList?.length > 10) {
-				await setDoc(recordDocRef, {
-					top: [...newRecordList.filter((v, i) => i <= 9)],
-				});
-			} else {
-				await setDoc(recordDocRef, { top: [...newRecordList] });
-			}
-		}
-	} else {
+	if (!gameRecords) {
 		await setDoc(recordDocRef, { top: [newScore] });
+		return;
 	}
+
+	if (isGameTopRecord(gameName, score, gameRecords.top)) {
+		const sortFunction =
+			gameName === 'memory'
+				? (a: ScoreInfo, b: ScoreInfo) => a.score - b.score
+				: (a: ScoreInfo, b: ScoreInfo) => b.score - a.score;
+
+		const newRecordList = [...gameRecords.top, newScore].sort(sortFunction);
+
+		const top =
+			newRecordList.length > 10
+				? newRecordList.filter((v, i) => i <= 9)
+				: newRecordList;
+
+		await setDoc(recordDocRef, {
+			top,
+		});
+	}
+};
+
+export const addUserScore = async (
+	user: User,
+	gameName: GameName,
+	score: number
+) => {
+	await addUserTopScore(user.uid, gameName, score);
+	await addGameTopScore(user, gameName, score);
+};
+
+export const getUserTopScores = async (userId: string) => {
+	const userDocRef = doc(db, 'users', userId);
+	const userSnapshot = await getDoc(userDocRef);
+	const user = userSnapshot.data();
+
+	if (!user?.scores) return null;
+
+	return user?.scores as UserRecords;
+};
+
+export const getUserGameTopScore = async (
+	userId: string,
+	gameName: GameName
+) => {
+	const userScores = await getUserTopScores(userId);
+
+	if (!userScores) return null;
+
+	return userScores[gameName];
+};
+
+export const getGamesTopScores = async () => {
+	const recordsCollectionRef = collection(db, 'records');
+	const queryRecordsSnapshot = await getDocs(recordsCollectionRef);
+	return queryRecordsSnapshot.docs.map((game) => {
+		const key = game.id;
+		const records = game.data();
+
+		return {
+			[key]: records,
+		};
+	});
+};
+
+export const getGameTopScores = async (gameName: GameName) => {
+	const recordDocRef = doc(db, 'records', gameName);
+	const gameRecordsSnapshot = await getDoc(recordDocRef);
+
+	const gameRecords = gameRecordsSnapshot.data();
+
+	if (!gameRecords?.top) return null;
+
+	return gameRecords.top as ScoreInfo[];
 };
 
 export const googleProvider = new GoogleAuthProvider();
