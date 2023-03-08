@@ -1,17 +1,9 @@
 import { useState } from 'react';
-import getCoordsInDirection, {
-	DIRECTION,
-	Direction,
-} from '../utils/getCoordsInDirection';
+import { DIRECTION, Direction } from '../utils/getCoordsInDirection';
 import getNodeGrowthDirection from '../utils/getNodeGrowthDirection';
 import getStartingSnakeCoords from '../utils/getStartingSnakeCoords';
 import isOutOfBoard from '../utils/isOutOfBoard';
-import {
-	Coords,
-	LinkedList,
-	LinkedListNode,
-	SnakeCoords,
-} from '../utils/linkedList';
+import { LinkedList, LinkedListNode, SnakeCoords } from '../utils/linkedList';
 
 const useSnake = (board: number[][]) => {
 	const [snake, setSnake] = useState(

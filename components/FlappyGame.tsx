@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { addUserScore } from '../firebase';
 import getRandomNumber from '../utils/getRandomNumber';
 import playSound from '../utils/playSound';
-import useInterval from '../utils/useInterval';
+import useInterval from '../hooks/useInterval';
 
 type Status = {
 	playing: boolean;

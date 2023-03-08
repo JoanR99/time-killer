@@ -10,7 +10,7 @@ import isOutOfBoard from '../utils/isOutOfBoard';
 import { Coords, LinkedListNode } from '../utils/linkedList';
 import playSound from '../utils/playSound';
 import randomIntFromInterval from '../utils/randomIntFromInterval';
-import useInterval from '../utils/useInterval';
+import useInterval from '../hooks/useInterval';
 import Button from '../components/Button';
 
 const BOARD_SIZE = 15;

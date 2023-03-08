@@ -1,5 +1,3 @@
-import { BOARD } from '../hooks/useTetrisBoard';
-
 export default function createBoard(rowsSize: number, colsSize: number) {
 	const board = [];
 	let counter = 1;

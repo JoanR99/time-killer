@@ -10,7 +10,7 @@ import useTetrisBoard, {
 import { useTetrisStatus } from '../hooks/useTetrisStatus';
 import { isColliding } from '../utils/isColliding';
 import playSound from '../utils/playSound';
-import useInterval from '../utils/useInterval';
+import useInterval from '../hooks/useInterval';
 import { addUserScore } from '../firebase';
 import getCellBGColor from '../utils/getCellBGColor';
 
@@ -141,7 +141,11 @@ const TetrisGame = () => {
 								<div
 									key={ci}
 									className={`border border-black h-8 w-8 ${
-										cell[2] === 'void' ? `bg-gray-300` : getCellBGColor(cell[2])
+										cell[2] === 'void'
+											? `bg-gray-300`
+											: cell[2] === 'red'
+											? 'bg-red-600'
+											: getCellBGColor(cell[2])
 									}
 							}`}
 								></div>
@@ -162,6 +166,8 @@ const TetrisGame = () => {
 											className={`border border-black h-8 w-8 ${
 												cell[2] === 'void'
 													? `bg-gray-300`
+													: cell[2] === 'red'
+													? 'bg-red-600'
 													: getCellBGColor(cell[2])
 											}
 							}`}
