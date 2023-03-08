@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { NextShape, PLAYER } from './usePlayer';
+import { Color, NextShape, PLAYER } from './useTetrisPlayer';
 
 export const WIDTH = 12;
 export const HEIGHT = 20;
 
-export type BOARDCELL = [string | number, string, string];
+type BoardColor = Color | 'void';
+
+export type BOARDCELL = [string | number, string, BoardColor];
 export type BOARD = BOARDCELL[][];
 
 export const createBoard = (height: number, width: number) =>

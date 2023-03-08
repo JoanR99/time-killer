@@ -4,13 +4,15 @@ import { isColliding } from '../utils/isColliding';
 import { randomTetromino } from '../utils/randomTetromino';
 import { BOARD, WIDTH } from './useTetrisBoard';
 
+export type Color = 'orange' | 'red' | 'yellow' | 'green' | 'blue';
+
 export type PLAYER = {
 	pos: {
 		x: number;
 		y: number;
 	};
 	tetromino: (string | number)[][];
-	color: string;
+	color: Color;
 	collided: boolean;
 };
 

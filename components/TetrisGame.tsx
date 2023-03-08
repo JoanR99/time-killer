@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import Button from '../components/Button';
 import { useAuth } from '../context/AuthContext';
-import usePlayer from '../hooks/usePlayer';
+import useTetrisPlayer from '../hooks/useTetrisPlayer';
 import useTetrisBoard, {
 	createBoard,
 	HEIGHT,
@@ -12,6 +12,7 @@ import { isColliding } from '../utils/isColliding';
 import playSound from '../utils/playSound';
 import useInterval from '../utils/useInterval';
 import { addUserScore } from '../firebase';
+import getCellBGColor from '../utils/getCellBGColor';
 
 const TetrisGame = () => {
 	const gameArea = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ const TetrisGame = () => {
 	const [gameOver, setGameOver] = useState(true);
 
 	const { player, nextShape, updatePlayerPos, resetPlayer, playerRotate } =
-		usePlayer();
+		useTetrisPlayer();
 	const { board, nextBoard, setBoard, rowsCleared } = useTetrisBoard(
 		player,
 		nextShape,
@@ -140,7 +141,7 @@ const TetrisGame = () => {
 								<div
 									key={ci}
 									className={`border border-black h-8 w-8 ${
-										cell[2] === 'void' ? `bg-gray-300` : `bg-${cell[2]}-600`
+										cell[2] === 'void' ? `bg-gray-300` : getCellBGColor(cell[2])
 									}
 							}`}
 								></div>
@@ -159,7 +160,9 @@ const TetrisGame = () => {
 										<div
 											key={ci}
 											className={`border border-black h-8 w-8 ${
-												cell[2] === 'void' ? `bg-gray-300` : `bg-${cell[2]}-600`
+												cell[2] === 'void'
+													? `bg-gray-300`
+													: getCellBGColor(cell[2])
 											}
 							}`}
 										></div>

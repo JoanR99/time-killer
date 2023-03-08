@@ -1,4 +1,4 @@
-import { PLAYER } from '../hooks/usePlayer';
+import { PLAYER } from '../hooks/useTetrisPlayer';
 import { BOARD } from '../hooks/useTetrisBoard';
 
 export const isColliding = (
