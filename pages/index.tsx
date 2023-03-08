@@ -21,12 +21,10 @@ export default function Home() {
 						Welcome to Time Killer
 					</h2>
 					<p>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam
-						corrupti ducimus aperiam recusandae! Consectetur quo ipsum modi
-						totam praesentium eum libero maiores, necessitatibus optio ea,
-						nostrum est illum, aspernatur veritatis vitae omnis harum quidem
-						repellat atque molestiae voluptates nobis? Cupiditate voluptate iste
-						impedit. Earum laborum sequi eveniet minima similique qui.
+						You can find in Time Killer several entertaining offline minigames
+						with which you can kill time when you are bored. In addition, when
+						logged in, you can access the ranking of best scores and compete
+						with friends or other people.
 					</p>
 				</div>
 			</div>
