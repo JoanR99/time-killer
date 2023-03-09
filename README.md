@@ -1,34 +1,84 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Time Killer
 
-## Getting Started
+Time Killer is a web app that has several offline games such as Simon's game, Snake game, Flappy Bird, Memory, and Tetris. In addition, it allows the user to log in to access the ranking of best scores.
 
-First, run the development server:
+&nbsp;
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+## Links
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Repo](https://github.com/JoanR99/time-killer 'Time Killer repo')
+- [Live Demo](https://time-killer.vercel.app/ 'Live View')
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+&nbsp;
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Screenshots
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+![Home Page](/screenshots/time-killer.png 'Home Page')
 
-## Learn More
+![Login Page](/screenshots/tk-2.png 'Login Page')
 
-To learn more about Next.js, take a look at the following resources:
+![Flappy Bird](/screenshots/tk-4.png 'Flappy Bird')
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![Tetris](/screenshots/tk-5.png 'Tetris')
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+&nbsp;
 
-## Deploy on Vercel
+## Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Typescript] ![Next] ![React] ![Tailwind] ![Firebase]
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+I developed the application with Next.js, which uses React as a library to build the interfaces. Also, I use Tailwind CSS for the styles and the hooks available in React to manage the application state. On the other hand, I use Firebase with the Firestore database for the backend.
+
+&nbsp;
+
+## How to install and run
+
+### Prerequisites
+
+1. You need to have Node.js installed in your machine.
+2. A Firebase project.
+
+### Installation
+
+1. Clone the repo
+
+   ```sh
+   git clone https://github.com/JoanR99/time-killer.git
+   ```
+
+2. Go to file
+
+   ```sh
+   cd time-killer
+   ```
+
+3. Install dependencies
+
+   ```sh
+   npm install
+   ```
+
+4. You need to have setup a project in firebase. Go to [Firebase](https://console.firebase.google.com/u/0/ 'Firebase') to create a project.
+
+5. Add .env.local file with variable your firebase project variables "NEXT_PUBLIC_API_KEY", "NEXT_PUBLIC_AUTH_DOMAIN", "NEXT_PUBLIC_PROJECT_ID", "NEXT_PUBLIC_STORAGE_BUCKET", "NEXT_PUBLIC_MESSAGING_SENDER_ID", "NEXT_PUBLIC_APP_ID".
+
+6. Run server.
+
+   ```sh
+   npm run dev
+   ```
+
+## Author
+
+**Joan Romero**
+
+- [Profile](https://github.com/JoanR99 'Github Joan Romero')
+- [Email](mailto:romerojoan1999@gmail.com?subject=Hi 'Hi!')
+- [Linkedin](https://www.linkedin.com/in/joanr99/ 'Linkedin Joan Romero')
+- [Portfolio](https://portfolio-joan-romero.vercel.app/ 'Portfolio Joan Romero')
+
+[next]: https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white
+[typescript]: https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white
+[react]: https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
+[tailwind]: https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white
+[firebase]: https://img.shields.io/badge/Firebase-039BE5?style=for-the-badge&logo=Firebase&logoColor=white
