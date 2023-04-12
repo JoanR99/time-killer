@@ -11,13 +11,13 @@ export default function Home() {
 				<meta name="description" content="Time Killer" />
 			</Head>
 
-			<div className="max-w-xs md:max-w-4xl m-auto flex justify-between gap-x-8 my-8 items-center">
-				<div className="w-1/2">
+			<div className="max-w-xs md:max-w-4xl m-auto flex justify-between gap-x-8 my-8 items-center flex-col md:flex-row">
+				<div className="md:w-1/2">
 					<LandingImage />
 				</div>
 
-				<div className="w-1/2">
-					<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
+				<div className="md:w-1/2 mt-4 md:mt-0">
+					<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-2 md:mb-4">
 						Welcome to Time Killer
 					</h2>
 					<p>
@@ -29,12 +29,12 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className="flex flex-col items-center mt-12">
+			<div className="flex flex-col items-center mt-12 mb-4">
 				<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
 					Games
 				</h2>
 				<div
-					className="flex gap-4 items-center
+					className="flex gap-4 items-center flex-wrap justify-center
 				"
 				>
 					<ImageCard src="/images/simon.png" alt="simon game">

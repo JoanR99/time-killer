@@ -37,12 +37,12 @@ export default function Page() {
 	}
 
 	return (
-		<div className="flex gap-20 mt-28 items-center justify-center">
-			<div className="w-1/3">
+		<div className="flex gap-8 md:gap-20 mt-8 md:mt-28 items-center justify-center flex-col md:flex-row">
+			<div className="md:w-1/3">
 				<LoginImage />
 			</div>
 
-			<div className="w-1/3">
+			<div className="md:w-1/3 mb-4">
 				<h2 className=" text-2xl text-orange-600 font-extrabold uppercase mb-4">
 					Login
 				</h2>
