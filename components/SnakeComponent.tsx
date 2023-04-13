@@ -136,10 +136,10 @@ const SnakeGame = () => {
 			ref={boardRef}
 			className="outline-none mx-auto"
 		>
-			<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
+			<h2 className="font-bold text-2xl text-orange-600 mb-2 text-center">
 				Snake Game
 			</h2>
-			<div className="flex justify-center gap-8 p-4 mb-8 items-center">
+			<div className="flex justify-center gap-8 p-4 mb-4 items-center">
 				<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
 				{!speed && (
 					<Button intent="primary" onClick={handleStart}>
@@ -148,13 +148,13 @@ const SnakeGame = () => {
 				)}
 			</div>
 
-			<div className="border border-black max-w-fit mt-8 m-auto">
+			<div className="border border-black max-w-fit mt-4 m-auto">
 				{board.map((row, ri) => (
 					<div key={ri} className="flex">
 						{row.map((cell, ci) => (
 							<div
 								key={ci}
-								className={`border border-black h-9 w-9 ${
+								className={`border border-black h-6 w-6 md:h-9 md:w-9 ${
 									snakeCells.has(cell)
 										? 'bg-orange-600'
 										: foodCell === cell
@@ -165,6 +165,36 @@ const SnakeGame = () => {
 						))}
 					</div>
 				))}
+			</div>
+
+			<div className="lg:hidden flex flex-col justify-center items-center gap-1 my-4">
+				<div
+					className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+					onClick={() => keyDown({ keyCode: 38 })}
+				>
+					&#129045;
+				</div>
+
+				<div className="flex gap-1">
+					<div
+						className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+						onClick={() => keyDown({ keyCode: 37 })}
+					>
+						&#129044;
+					</div>
+					<div
+						className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+						onClick={() => keyDown({ keyCode: 40 })}
+					>
+						&#129047;
+					</div>
+					<div
+						className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+						onClick={() => keyDown({ keyCode: 39 })}
+					>
+						&#129046;
+					</div>
+				</div>
 			</div>
 		</div>
 	);

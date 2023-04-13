@@ -141,28 +141,36 @@ const SimonGame = () => {
 				</div>
 
 				<div className="container">
-					<div className="row">
+					<div className="flex">
 						<button
-							className={`btn green ${isPressed.green ? 'pressed' : ''}`}
+							className={`md:m-2 m-1 inline-block h-32 w-32 md:h-52 md:w-52 border-[10px] border-darkBlue green ${
+								isPressed.green ? 'pressed' : ''
+							}`}
 							onClick={(e) => handleClick('green')}
 							disabled={disabled}
 						></button>
 
 						<button
-							className={`btn red ${isPressed.red ? 'pressed' : ''}`}
+							className={`md:m-2 m-1 inline-block h-32 w-32 md:h-52 md:w-52 border-[10px] border-darkBlue red ${
+								isPressed.red ? 'pressed' : ''
+							}`}
 							onClick={(e) => handleClick('red')}
 							disabled={disabled}
 						></button>
 					</div>
 
-					<div className="row">
+					<div className="flex">
 						<button
-							className={`btn yellow ${isPressed.yellow ? 'pressed' : ''}`}
+							className={`md:m-2 m-1 inline-block h-32 w-32 md:h-52 md:w-52 border-[10px] border-darkBlue yellow ${
+								isPressed.yellow ? 'pressed' : ''
+							}`}
 							onClick={(e) => handleClick('yellow')}
 							disabled={disabled}
 						></button>
 						<button
-							className={`btn blue ${isPressed.blue ? 'pressed' : ''}`}
+							className={`md:m-2 m-1 inline-block h-32 w-32 md:h-52 md:w-52 border-[10px] border-darkBlue blue ${
+								isPressed.blue ? 'pressed' : ''
+							}`}
 							onClick={(e) => handleClick('blue')}
 							disabled={disabled}
 						></button>

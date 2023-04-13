@@ -18,13 +18,13 @@ const RecordsPanel = ({ gameName }: Props) => {
 
 	useEffect(() => {
 		async function getRecords() {
+			const gameR = await getGameTopScores(gameName);
+			if (gameR) setGameRecords(gameR);
+
 			if (!auth?.currentUser) return;
 			const userR = await getUserGameTopScore(auth?.currentUser?.uid, gameName);
-			const gameR = await getGameTopScores(gameName);
 
 			if (userR) setUserRecords(userR);
-
-			if (gameR) setGameRecords(gameR);
 		}
 
 		getRecords();
