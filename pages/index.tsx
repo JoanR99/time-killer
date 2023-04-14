@@ -45,9 +45,11 @@ export default function Home() {
 						<Link href="snake">Snake</Link>
 					</ImageCard>
 
-					<ImageCard src="/images/flappy.png" alt="flappy game">
-						<Link href="flappy">Flappy Bird</Link>
-					</ImageCard>
+					<div className="hidden lg:block">
+						<ImageCard src="/images/flappy.png" alt="flappy game">
+							<Link href="flappy">Flappy Bird</Link>
+						</ImageCard>
+					</div>
 
 					<ImageCard src="/images/memory.png" alt="memory game">
 						<Link href="memory">Memory</Link>

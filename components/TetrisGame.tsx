@@ -118,14 +118,14 @@ const TetrisGame = () => {
 			onKeyDown={move}
 			onKeyUp={keyUp}
 			ref={gameArea}
-			className="outline-none mx-auto"
+			className="outline-none mx-auto mb-4"
 		>
-			<div className="flex gap-10 items-start justify-center mt-8">
-				<div>
-					<h2 className="font-bold text-2xl text-orange-600 mb-4 text-center">
+			<div className="flex lg:gap-10 items-center justify-center mt-4 lg:mt-8 flex-col lg:flex-row lg:items-start">
+				<div className="flex flex-col items-center w-full">
+					<h2 className="font-bold text-2xl text-orange-600 lg:mb-4 text-center">
 						Tetris
 					</h2>
-					<div className="flex justify-center gap-8 p-4 mb-8 items-center">
+					<div className="flex justify-center gap-8 p-4 lg:mb-8 items-center">
 						<h3 className=" font-bold text-xl text-center"> Score: {score}</h3>
 						{gameOver && (
 							<Button intent="primary" onClick={() => handleStartGame()}>
@@ -134,48 +134,81 @@ const TetrisGame = () => {
 						)}
 					</div>
 				</div>
-				<div className="border border-black  max-w-fit">
-					{board.map((row, ri) => (
-						<div key={ri} className="flex">
-							{row.map((cell, ci) => (
-								<div
-									key={ci}
-									className={`border border-black h-8 w-8 ${
-										cell[2] === 'void'
-											? `bg-gray-300`
-											: cell[2] === 'red'
-											? 'bg-red-600'
-											: getCellBGColor(cell[2])
-									}
-							}`}
-								></div>
-							))}
-						</div>
-					))}
-				</div>
 
-				<div>
-					<h1>Next Shape</h1>
-					<div className="border border-black bg-gray-300 max-w-fit">
-						{nextBoard.map((row, ri) => (
+				<div className="flex gap-4">
+					<div className="border border-black  max-w-fit">
+						{board.map((row, ri) => (
 							<div key={ri} className="flex">
-								<div key={ri} className="flex">
-									{row.map((cell, ci) => (
-										<div
-											key={ci}
-											className={`border border-black h-8 w-8 ${
-												cell[2] === 'void'
-													? `bg-gray-300`
-													: cell[2] === 'red'
-													? 'bg-red-600'
-													: getCellBGColor(cell[2])
-											}
+								{row.map((cell, ci) => (
+									<div
+										key={ci}
+										className={`border border-black h-4 w-4 lg:h-8 lg:w-8 ${
+											cell[2] === 'void'
+												? `bg-gray-300`
+												: cell[2] === 'red'
+												? 'bg-red-600'
+												: getCellBGColor(cell[2])
+										}
 							}`}
-										></div>
-									))}
-								</div>
+									></div>
+								))}
 							</div>
 						))}
+					</div>
+
+					<div>
+						<h1>Next Shape</h1>
+						<div className="border border-black bg-gray-300 max-w-fit">
+							{nextBoard.map((row, ri) => (
+								<div key={ri} className="flex">
+									<div key={ri} className="flex">
+										{row.map((cell, ci) => (
+											<div
+												key={ci}
+												className={`border border-black h-4 w-4 lg:h-8 lg:w-8 ${
+													cell[2] === 'void'
+														? `bg-gray-300`
+														: cell[2] === 'red'
+														? 'bg-red-600'
+														: getCellBGColor(cell[2])
+												}
+							}`}
+											></div>
+										))}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
+				<div className="lg:hidden flex flex-col justify-center items-center gap-1 my-4">
+					<div
+						className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+						onClick={() => move({ keyCode: 38, repeat: false })}
+					>
+						&#129045;
+					</div>
+
+					<div className="flex gap-1">
+						<div
+							className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+							onClick={() => move({ keyCode: 37, repeat: false })}
+						>
+							&#129044;
+						</div>
+						<div
+							className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+							onPointerDown={() => move({ keyCode: 40, repeat: false })}
+							onPointerUp={() => keyUp({ keyCode: 40 })}
+						>
+							&#129047;
+						</div>
+						<div
+							className="h-10 w-10 bg-gray-500 text-white text-center rounded-md leading-9 font-bold shadow-sm shadow-black"
+							onClick={() => move({ keyCode: 39, repeat: false })}
+						>
+							&#129046;
+						</div>
 					</div>
 				</div>
 			</div>

@@ -106,16 +106,16 @@ const MemoryGame = () => {
 	}, []);
 
 	return (
-		<div className="flex gap-20 w-full mt-4">
-			<div className="text-center w-1/6">
-				<h2 className="font-bold text-2xl text-orange-600 mb-2 text-center">
+		<div className="flex lg:gap-20 w-full mt-4 flex-col lg:flex-row mb-4">
+			<div className="text-center w-full lg:w-1/6">
+				<h2 className="font-bold text-2xl text-orange-600 lg:mb-2 text-center">
 					Memory
 				</h2>
-				<div className="gap-8 p-4">
+				<div className="p-4">
 					<h3 className=" font-bold text-xl text-center"> Turns: {turns}</h3>
 				</div>
 			</div>
-			<div className="grid grid-cols-8 gap-8 p-8 mx-auto w-5/6">
+			<div className="grid grid-cols-4 lg:grid-cols-8 gap-4 lg:gap-8 p-4 lg:p-8 mx-auto w-full lg:w-5/6">
 				{cards?.map((card) => (
 					<Card
 						key={card.id}
